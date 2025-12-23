@@ -1,0 +1,31 @@
+<div class="flex min-h-screen bg-gray-950 text-gray-100">
+
+    <!-- Menu lateral -->
+     <div>
+        <app-menu
+        [open]="menuOpen()"
+        (toggle)="toggleMenu()">
+      </app-menu>
+     </div>
+   
+    <div class="flex flex-col flex-1 bg-gray-100">
+  
+      <header class="h-14 bg-gray-900 border-b border-gray-800 shadow flex items-center px-4">
+        <button
+          class="mr-4 text-xl"
+          (click)="toggleMenu()">
+          ☰
+        </button>
+        <h1 class="font-bold">NBA App</h1>
+      </header>
+  
+      <main class="flex-1 p-6 bg-gray-950">
+        <router-outlet />
+      </main>
+  
+      <!-- Footer -->
+      <app-footer />
+    </div>
+  
+  </div>
+  

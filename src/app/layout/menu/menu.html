@@ -1,0 +1,76 @@
+<div
+  class="bg-gray-900 text-white transition-all duration-300 h-full"
+  [class.w-64]="open"
+  [class.w-16]="!open">
+
+  <div class="h-14 flex items-center justify-center font-bold">
+  </div>
+
+  <nav class="flex flex-col gap-2 p-2">
+    <a
+    routerLink="/inicio"
+    class="rounded p-2 transition flex"
+    [class.justify-center]="!open"
+    [class.items-center]="!open"
+    [class.gap-3]="open"
+    [class.hover:bg-gray-700]="true">
+  
+    <span class="text-lg">🏠</span>
+  
+    <span
+      class="transition-all duration-200 whitespace-nowrap"
+      [class.opacity-0]="!open"
+      [class.w-0]="!open"
+      [class.overflow-hidden]="!open">
+      Inicio
+    </span>
+  
+  </a>
+  
+    <a routerLink="/equipos"
+    class="rounded p-2 transition flex"
+    [class.justify-center]="!open"
+    [class.items-center]="!open"
+    [class.gap-3]="open"
+    [class.hover:bg-gray-700]="true"
+    >
+      <span class="text-lg">🏀</span>
+      <span
+      class="transition-opacity duration-200"
+      [class.opacity-0]="!open"
+      [class.w-0]="!open"
+      [class.overflow-hidden]="!open">
+      Equipos
+    </span>
+    </a>
+    <a routerLink="/jugadores"  class="rounded p-2 transition flex"
+    [class.justify-center]="!open"
+    [class.items-center]="!open"
+    [class.gap-3]="open"
+    [class.hover:bg-gray-700]="true">
+      <span class="text-lg">👤</span>
+      <span
+      class="transition-opacity duration-200"
+      [class.opacity-0]="!open"
+      [class.w-0]="!open"
+      [class.overflow-hidden]="!open">
+      Jugadores
+    </span>
+    </a>
+    <a routerLink="/estadisticas"
+    class="rounded p-2 transition flex"
+    [class.justify-center]="!open"
+    [class.items-center]="!open"
+    [class.gap-3]="open"
+    [class.hover:bg-gray-700]="true">
+      <span class="text-lg">📊</span>
+      <span
+        class="transition-opacity duration-200"
+        [class.opacity-0]="!open"
+        [class.w-0]="!open"
+        [class.overflow-hidden]="!open">
+        Estadísticas
+      </span>
+    </a>
+  </nav>
+</div>
