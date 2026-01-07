@@ -1,8 +1,12 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout';
-import { EquiposComponent } from './components/equipos/equipos';
 
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'inicio',
+    pathMatch: 'full',
+  },
     {
         path: '',
         component: MainLayoutComponent,
@@ -13,7 +17,16 @@ export const routes: Routes = [
           },
           {
             path: 'equipos',
-            loadComponent: () => import('./components/equipos/equipos').then(m => m.EquiposComponent),
+            children: [
+              {
+                path:'',
+                loadComponent: () => import('./components/equipos/equipos').then(m => m.EquiposComponent),
+              },
+              {
+                path:':id',
+                loadComponent: () => import('./components/detalle-equipo/detalle-equipo').then(m => m.DetalleEquipo)
+              }
+            ]
           },
           {
             path: 'jugadores',
@@ -22,6 +35,10 @@ export const routes: Routes = [
           {
             path: 'estadisticas',
             loadComponent: () => import('./components/estadisticas/estadisticas').then(m => m.Estadisticas),
+          },
+          {
+            path: 'favoritos',
+            loadComponent: () => import('./components/favoritos-component/favoritos-component').then(m => m.FavoritosComponent),
           }
         ]
       }

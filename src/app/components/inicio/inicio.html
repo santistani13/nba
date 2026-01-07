@@ -1,1 +1,114 @@
-<p>inicio works!</p>
+
+<h1 class="text-center mb-3 text-2xl">
+  <span>Bienvenido a la NBA App</span>
+</h1>
+
+<h5 class="text-center mb-3 text-lg">
+  <span>Informate sobre equipos, jugadores, estadisticas, entre otras cosas...</span>
+</h5>
+
+
+@if (loading()) {
+    <div class="text-gray-400 text-center mt-6">
+      Cargando equipos...
+    </div>
+  }
+
+  @if (error()) {
+    <div class="text-red-400 text-center mt-6">
+      {{ error() }}
+    </div>
+  }
+  @if(!error() && !loading()){
+    <h5 class="text-center mb-3 mt-5 text-lg">Lideres de la liga</h5>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+      <!-- PUNTOS POR PARTIDO -->
+      <div class="bg-gradient-to-br from-red-600 to-red-800 rounded-2xl p-6 shadow-lg text-white">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Puntos por partido</h2>
+          <span class="text-3xl">🏀</span>
+        </div>
+    
+        <ul class="space-y-2">
+          @for (player of lideresPuntos(); track player.id) {
+            <li class="flex justify-between bg-white/10 rounded-lg px-4 py-2">
+              <span>{{ player.name }} ({{player.team}})</span>
+              <span class="font-semibold">{{ player.value }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    
+      <!-- ASISTENCIAS -->
+      <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 shadow-lg text-white">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Asistencias por partido</h2>
+          <span class="text-3xl">🤝</span>
+        </div>
+    
+        <ul class="space-y-2">
+          @for (player of lideresAsistencias(); track player.id) {
+            <li class="flex justify-between bg-white/10 rounded-lg px-4 py-2">
+              <span>{{ player.name }} ({{player.team}})</span>
+              <span class="font-semibold">{{ player.value }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    
+      <!-- REBOTES -->
+      <div class="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl p-6 shadow-lg text-white">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Rebotes por partido</h2>
+          <span class="text-3xl">🧱</span>
+        </div>
+    
+        <ul class="space-y-2">
+          @for (player of lideresRebotes(); track player.id) {
+            <li class="flex justify-between bg-white/10 rounded-lg px-4 py-2">
+              <span>{{ player.name }} ({{player.team}})</span>
+              <span class="font-semibold">{{ player.value }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    
+      <!-- MEJORES EQUIPOS DE LA TEMPORADA -->
+      <div class="bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl p-6 shadow-lg text-white md:col-span-2">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Mejores equipos (temporada)</h2>
+          <span class="text-3xl">🔥</span>
+        </div>
+    
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          @for (team of mejoresEquipos(); track team.id) {
+            <li class="bg-white/10 rounded-lg px-4 py-3 flex justify-between">
+              <span>{{ team.name }}</span>
+              <span class="font-semibold">{{ team.wins }}W - {{ team.losses }}L</span>
+            </li>
+          }
+        </ul>
+      </div>
+    
+      <!-- EQUIPOS MÁS GANADORES -->
+      <div class="bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-2xl p-6 shadow-lg text-black md:col-span-1">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Más campeonatos</h2>
+          <span class="text-3xl">🏆</span>
+        </div>
+    
+        <ul class="space-y-2">
+          @for (team of equiposMasGanadores(); track team.id) {
+            <li class="flex justify-between bg-black/10 rounded-lg px-4 py-2">
+              <span>{{ team.name }}</span>
+              <span class="font-semibold">{{ team.championships }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    
+    </div>
+  }
+
+  

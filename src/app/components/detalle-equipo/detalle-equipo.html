@@ -1,0 +1,134 @@
+@if (loading()) {
+    <div class="text-gray-400 text-center mt-10">
+      Cargando equipo...
+    </div>
+  }
+  
+  @if (error()) {
+    <div class="text-red-400 text-center mt-10">
+      {{ error() }}
+    </div>
+  }
+  
+  @if (!loading() && !error() && equipo()) {
+  
+    <!-- HEADER -->
+    <div class="flex items-center gap-4 mb-8">
+      <img
+        [src]="equipo()?.logoUrl"
+        alt="Logo equipo"
+        (error)="onImgError($event)"
+        class="w-16 h-16 object-contain"
+      />
+  
+      <div>
+        <h1 class="text-2xl font-bold text-white">
+          {{ equipo()!.name }}
+        </h1>
+        <span class="text-sm text-gray-400">
+          {{ equipo()!.abbreviation }}
+        </span>
+      </div>
+    </div>
+  
+    <!-- SEASON STATS TABLE -->
+    <div class="bg-gray-800 rounded-lg p-4 mb-8">
+      <h2 class="text-lg font-semibold text-white mb-4">
+        Temporada actual
+      </h2>
+  
+      <table class="w-full text-sm text-gray-300">
+        <tbody class="divide-y divide-gray-700">
+          <tr>
+            <td class="py-2">Victorias</td>
+            <td class="py-2 text-right font-semibold text-white">
+              {{ equipo()!.seasonStats.wins }}
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2">Derrotas</td>
+            <td class="py-2 text-right font-semibold text-white">
+              {{ equipo()!.seasonStats.losses }}
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2">Local</td>
+            <td class="py-2 text-right">
+              {{ equipo()!.seasonStats.homeWins }} - {{ equipo()!.seasonStats.homeLosses }}
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2">Visitante</td>
+            <td class="py-2 text-right">
+              {{ equipo()!.seasonStats.awayWins }} - {{ equipo()!.seasonStats.awayLosses }}
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2">Últimos 10</td>
+            <td class="py-2 text-right">
+              {{ equipo()!.seasonStats.last10.wins }} - {{ equipo()!.seasonStats.last10.losses }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- LEADERS -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+  
+      <div class="bg-gray-800 rounded-lg p-4">
+        <h3 class="text-sm text-gray-400 mb-1">Puntos por partido</h3>
+        <p class="text-white font-semibold">
+          {{ equipo()!.leaders.pointsPerGame.player }}
+        </p>
+        <span class="text-indigo-400 text-sm">
+          {{ equipo()!.leaders.pointsPerGame.value }} PPG
+        </span>
+      </div>
+  
+      <div class="bg-gray-800 rounded-lg p-4">
+        <h3 class="text-sm text-gray-400 mb-1">Rebotes por partido</h3>
+        <p class="text-white font-semibold">
+          {{ equipo()!.leaders.reboundsPerGame.player }}
+        </p>
+        <span class="text-indigo-400 text-sm">
+          {{ equipo()!.leaders.reboundsPerGame.value }} RPG
+        </span>
+      </div>
+  
+      <div class="bg-gray-800 rounded-lg p-4">
+        <h3 class="text-sm text-gray-400 mb-1">Asistencias por partido</h3>
+        <p class="text-white font-semibold">
+          {{ equipo()!.leaders.assistsPerGame.player }}
+        </p>
+        <span class="text-indigo-400 text-sm">
+          {{ equipo()!.leaders.assistsPerGame.value }} APG
+        </span>
+      </div>
+  
+    </div>
+  
+    <!-- HISTORIA / CAMPEONATOS -->
+    <div class="bg-gray-800 rounded-lg p-6">
+      <h2 class="text-lg font-semibold text-white mb-4">
+        Historia del equipo
+      </h2>
+  
+      <p class="text-gray-300 mb-2">
+        Campeonatos ganados:
+        <span class="font-semibold text-white">
+          {{ equipo()!.championships.total }}
+        </span>
+      </p>
+  
+      <div class="flex flex-wrap gap-2">
+        @for (year of equipo()!.championships.years; track year) {
+          <span class="px-3 py-1 text-sm rounded bg-gray-700 text-gray-200">
+            {{ year }}
+          </span>
+        }
+      </div>
+    </div>
+  
+  }
+  

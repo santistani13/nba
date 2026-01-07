@@ -57,6 +57,21 @@
       Jugadores
     </span>
     </a>
+    <a routerLink="/favoritos"
+    class="rounded p-2 transition flex"
+    [class.justify-center]="!open"
+    [class.items-center]="!open"
+    [class.gap-3]="open"
+    [class.hover:bg-gray-700]="true">
+      <span class="text-lg">⭐</span>
+      <span
+        class="transition-opacity duration-200"
+        [class.opacity-0]="!open"
+        [class.w-0]="!open"
+        [class.overflow-hidden]="!open">
+        Favoritos
+      </span>
+    </a>
     <a routerLink="/estadisticas"
     class="rounded p-2 transition flex"
     [class.justify-center]="!open"

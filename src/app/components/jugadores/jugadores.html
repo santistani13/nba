@@ -1,1 +1,27 @@
-<p>jugadores works!</p>
+<input
+  type="text"
+  placeholder="Buscar jugador"
+  class="bg-gray-800 text-white p-2 rounded"
+  (input)="onSearch($any($event.target).value)"
+/>
+
+@if (loading()) {
+  <p class="text-gray-400 mt-4">Buscando...</p>
+}
+
+@if (error()) {
+  <p class="text-red-400 mt-4">{{ error() }}</p>
+}
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  @for (player of jugadoresFiltrados(); track player.id) {
+    <div class="bg-gray-800 p-4 rounded">
+      <h3 class="font-bold">
+        {{ player.first_name }} {{ player.last_name }}
+      </h3>
+      <p class="text-sm text-gray-400">
+        {{ player.team.full_name }} · {{ player.position || 'N/A' }}
+      </p>
+    </div>
+  }
+</div>
