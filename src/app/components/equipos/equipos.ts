@@ -2,6 +2,7 @@ import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal } from
 import { Equipos } from '../../services/equipos.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink, RouterModule } from "@angular/router";
+import { FavoritosService } from '../../services/favoritos-service';
 
 @Component({
   selector: 'app-equipos',
@@ -13,11 +14,12 @@ import { RouterLink, RouterModule } from "@angular/router";
 export class EquiposComponent implements OnInit{
   private equiposService = inject(Equipos);
   private platformId = inject(PLATFORM_ID);
+  private favoritosService = inject(FavoritosService);
   equipos = this.equiposService.equipos;
   loading = this.equiposService.loading;
   error = this.equiposService.error;
   search = signal('');
-  favoritos = signal<number[]>([]);
+  favoritos = this.favoritosService.favoritos;
   private isBrowser = isPlatformBrowser(this.platformId);
 
   equiposFiltrados = computed(() =>{
@@ -28,38 +30,22 @@ export class EquiposComponent implements OnInit{
     return this.equipos().filter(e => e.full_name.toLocaleLowerCase().includes(term) && e.division !== '');
   })
   constructor() {
-    if (this.isBrowser) {
-      effect(() => {
-        localStorage.setItem(
-          'favoriteTeams',
-          JSON.stringify(this.favoritos())
-        );
-      });
-    }
+    
   }
   
   ngOnInit() {
     if (this.isBrowser) {
       this.equiposService.getEquipos();
-  
-      const stored = localStorage.getItem('favoriteTeams');
-      if (stored) {
-        this.favoritos.set(JSON.parse(stored));
-      }
     }
   }
   
   
   toggleToFavoritos(event:MouseEvent,team:any){
     event?.stopPropagation();
-    this.favoritos.update((favs) =>{
-      return favs.includes(team.id)
-      ? favs.filter(id => id !== team.id)
-      : [...favs, team.id]; 
-    })
+    this.favoritosService.toggle(team);
   }
   isFavorito(teamId: number) {
-    return this.favoritos().includes(teamId);
+    return this.favoritosService.isFavorito(teamId);
   }
   
 }

@@ -1,0 +1,46 @@
+@if (toast()) {
+    <div
+    class="fixed z-50 max-w-sm w-full rounded-lg shadow-lg p-4 flex items-start gap-3
+    transition-all duration-300 ease-out pointer-events-none"
+[class.pointer-events-auto]="toast()"
+[ngClass]="{
+'opacity-100 translate-y-0': visible(),
+'opacity-0 translate-y-4': !visible(),
+
+'bg-green-600 text-white': toast()?.type === 'success',
+'bg-red-600 text-white': toast()?.type === 'error',
+'bg-yellow-400 text-black': toast()?.type === 'warning',
+'bg-sky-500 text-white': toast()?.type === 'info'
+}"
+style="top: 1rem; right: 1rem;"
+    >
+      <!-- Icono -->
+      @if (toast()!.icon) {
+        <span class="text-xl">{{ toast()!.icon }}</span>
+      }
+  
+      <!-- Mensaje -->
+      <div class="flex-1">
+        <p class="text-sm font-medium">
+          {{ toast()!.message }}
+        </p>
+  
+        @if (toast()!.action) {
+          <button
+            class="mt-2 underline text-sm"
+            (click)="toast()!.action!.onClick()"
+          >
+            {{ toast()!.action!.label }}
+          </button>
+        }
+      </div>
+  
+      <button
+        class="text-lg leading-none opacity-80 hover:opacity-100"
+        (click)="toastService.clear()"
+      >
+        ✕
+      </button>
+    </div>
+  }
+  
