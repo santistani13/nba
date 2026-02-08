@@ -1,0 +1,31 @@
+<div class="w-full bg-gray-100 py-4 overflow-hidden">
+  <swiper-container
+    class="block w-full overflow-hidden px-4"
+    slides-per-view="auto"
+    space-between="12"
+    free-mode="true"
+    grab-cursor="true"
+  >
+    @for (match of matches(); track match.id) {
+      <swiper-slide class="w-[260px] shrink-0">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex flex-col gap-3">
+
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">{{ match.homeTeam.abbreviation }}</span>
+            <span class="font-bold">{{ match.homeScore }}</span>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">{{ match.awayTeam.abbreviation }}</span>
+            <span class="font-bold">{{ match.awayScore }}</span>
+          </div>
+
+          <span class="mt-2 inline-block bg-yellow-400 text-black px-2 py-0.5 rounded-full text-xs font-semibold">
+            ▶ League Pass
+          </span>
+
+        </div>
+      </swiper-slide>
+    }
+  </swiper-container>
+</div>

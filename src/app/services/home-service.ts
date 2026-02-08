@@ -22,7 +22,6 @@ export class HomeService {
   constructor(private http: HttpClient){}
 
   getOverview(){
-    console.log('entre en el getOverView')
     this._error.set(null);
     this._loading.set(true)
     this.http.get(`${this.baseUrl}/overview`).subscribe({

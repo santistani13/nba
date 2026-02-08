@@ -1,0 +1,40 @@
+<div class="login-wrapper login-background">
+    <div class="login-card">
+      <div class="login-header">
+        <span class="nba-dot"></span>
+        <h1>NBA App</h1>
+        <p>Equipos, jugadores y estadísticas en tiempo real</p>
+      </div>
+  
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="usuario@nba.com"
+            formControlName="email"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="••••••••"
+            formControlName="password"
+          />
+        </div>
+  
+        <button class="btn-login">
+          Ingresar
+        </button>
+      </form>
+  
+      <div class="login-footer">
+        <span>🏀 Powered by NBA data</span>
+      </div>
+    </div>
+  </div>
+  

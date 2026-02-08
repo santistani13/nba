@@ -2,6 +2,9 @@
 
 @import "tailwindcss";
 
+@import "swiper/css";
+@import "swiper/css/free-mode";
+
 
 html, body {
     height: 100%;
