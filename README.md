@@ -1,59 +1,109 @@
-# NbaApp
+🏀 NBA App – Fullstack Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+Aplicación fullstack desarrollada con Angular 21 + NestJS, autenticación JWT y base de datos PostgreSQL dockerizada usando Prisma como ORM.
 
-## Development server
+🚀 Tech Stack
+🖥 Frontend
 
-To start a local development server, run:
+Angular 21
 
-```bash
-ng serve
-```
+Signals
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Angular Router
 
-## Code scaffolding
+Guards
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Reactive Forms
 
-```bash
-ng generate component component-name
-```
+🔐 Backend
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+NestJS
 
-```bash
-ng generate --help
-```
+JWT Authentication
 
-## Building
+Bcrypt (hash de contraseñas)
 
-To build the project run:
+Prisma ORM
 
-```bash
-ng build
-```
+🗄 Base de Datos
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+PostgreSQL 16
 
-## Running unit tests
+Docker
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Prisma Migrations
 
-```bash
-ng test
-```
+🏗 Arquitectura del Proyecto
+project-root/
+│
+├── frontend/              → Angular 21
+│   ├── src/
+│   └── package.json
+│
+├── backend/               → NestJS API
+│   ├── prisma/
+│   │   └── schema.prisma
+│   ├── src/
+│   ├── .env
+│   └── package.json
+│
+├── docker-compose.yml     → PostgreSQL container
+└── README.md
+🐳 Base de Datos (PostgreSQL Dockerizado)
 
-## Running end-to-end tests
+La base de datos corre en un contenedor Docker.
 
-For end-to-end (e2e) testing, run:
+Levantar PostgreSQL:
+docker-compose up -d
 
-```bash
-ng e2e
-```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Esto crea:
 
-## Additional Resources
+Usuario: postgres
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Password: postgres
+
+Base de datos: nba_app
+
+Puerto: 5432
+
+Para detener la base:
+
+docker-compose down
+🧬 Prisma (ORM)
+
+Prisma gestiona el esquema y las migraciones de la base.
+
+Ejecutar migraciones:
+
+Desde la carpeta backend:
+
+npx prisma migrate dev
+
+Abrir Prisma Studio (UI para ver la DB):
+npx prisma studio
+▶️ Levantar el Proyecto Completo
+
+Existe un comando único para correr frontend y backend juntos:
+npm start
+
+🔐 Autenticación
+
+El sistema utiliza:
+
+JWT
+
+Guards en Angular
+
+Validación de credenciales contra base de datos
+
+Persistencia real en PostgreSQL
+
+Usuario de prueba
+Email: test@gmail.com
+Password: test
+
+
+💼 Objetivo del Proyecto
+
+Proyecto desarrollado como práctica profesional fullstack utilizando arquitectura moderna, separación de responsabilidades y base de datos persistente dockerizada.
