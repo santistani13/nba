@@ -1,36 +1,58 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
-  private users: { id: number, email: string; passwordHash: string }[] = [];
+  constructor(
+    private jwtService: JwtService,
+    private prisma: PrismaService
+  ) {}
 
-  constructor(private jwtService: JwtService) {
-    // usuario hardcodeado para pruebas
-    const hash = bcrypt.hashSync('123456', 10);
-
-    this.users.push({
-        id: 1,
-      email: 'test@mail.com',
-      passwordHash: hash,
+  async register(email: string, password: string) {
+    const existing = await this.prisma.user.findUnique({
+      where: { email },
     });
+
+    if (existing) {
+      throw new ConflictException('El usuario ya existe');
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    await this.prisma.user.create({
+      data: {
+        email,
+        password: passwordHash,
+      },
+    });
+
+    return {
+      message: 'Usuario creado correctamente',
+    };
   }
 
   async login(email: string, password: string) {
-    const user = this.users.find(u => u.email === email);
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
 
     if (!user) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const isValid = await bcrypt.compare(password, user.passwordHash);
+    const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const payload = { sub: user.id, email: user.email };
+    return this.signToken(user.id, user.email);
+  }
+
+  private signToken(userId: number, email: string) {
+    const payload = { sub: userId, email };
 
     return {
       access_token: this.jwtService.sign(payload),

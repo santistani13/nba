@@ -11,12 +11,34 @@
     <div class="flex flex-col flex-1 bg-gray-100">
   
       <header class="h-14 bg-gray-900 border-b border-gray-800 shadow flex items-center px-4">
+  
         <button
           class="mr-4 text-xl"
           (click)="toggleMenu()">
           ☰
         </button>
+      
         <h1 class="font-bold">NBA App</h1>
+        <div class="flex-1"></div>
+      
+        <div class="flex items-center gap-4">
+          
+          <!-- Avatar -->
+          <div class="w-8 h-8 rounded-full bg-orange-700 flex items-center justify-center text-sm font-bold text-gray-900">
+              👤
+          </div>
+      
+          <span class="text-sm text-gray-300">
+            {{ userEmail() }}
+          </span>
+          <button
+            (click)="logout()"
+            class="text-sm px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 transition">
+            Cerrar sesion
+          </button>
+      
+        </div>
+      
       </header>
       
       <main class="flex-1 p-6 bg-gray-950">

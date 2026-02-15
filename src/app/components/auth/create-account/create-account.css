@@ -1,4 +1,22 @@
-.login-background {
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff6a00, #ff9f1a);
+    border: none;
+    color: #121726;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
+    }
+  }
+  .login-background {
     background-image: repeating-linear-gradient(
         90deg,
         rgba(255, 255, 255, 0.03) 0,
@@ -129,4 +147,5 @@
   .login-register a:hover {
     text-decoration: underline;
   }
+  
   

@@ -7,4 +7,9 @@ export const authRoutes: Routes = [
       loadComponent: () =>
         import('./login/login').then(m => m.Login),
     },
+    {
+      path: 'create-account',
+      loadComponent: () =>
+        import('./create-account/create-account').then(m => m.CreateAccount),
+    },
   ];

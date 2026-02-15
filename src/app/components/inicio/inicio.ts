@@ -1,5 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { HomeService } from '../../services/home-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-inicio',
@@ -9,6 +10,7 @@ import { HomeService } from '../../services/home-service';
 })
 export class Inicio{
  private homeService = inject(HomeService);
+ private authService = inject(AuthService)
  lideresPuntos = this.homeService.lideresPuntos;
  lideresAsistencias = this.homeService.lideresAsistencias;
  lideresRebotes = this.homeService.lideresRebotes;
@@ -19,7 +21,9 @@ export class Inicio{
 
  constructor(){
     effect(() => {
-      this.homeService.getOverview();
+      if(this.authService.isAuthenticated()){
+        this.homeService.getOverview();
+      }
     });
  }
 }
