@@ -33,22 +33,6 @@ Docker
 
 Prisma Migrations
 
-🏗 Arquitectura del Proyecto
-project-root/
-│
-├── frontend/              → Angular 21
-│   ├── src/
-│   └── package.json
-│
-├── backend/               → NestJS API
-│   ├── prisma/
-│   │   └── schema.prisma
-│   ├── src/
-│   ├── .env
-│   └── package.json
-│
-├── docker-compose.yml     → PostgreSQL container
-└── README.md
 🐳 Base de Datos (PostgreSQL Dockerizado)
 
 La base de datos corre en un contenedor Docker.
