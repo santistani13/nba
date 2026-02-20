@@ -14,6 +14,11 @@ interface Player {
     abbreviation: string;
     conference: 'East' | 'West';
   };
+  lastTenGames?: [
+  ];
+  stats?:[
+
+  ]
 }
 
 @Injectable({

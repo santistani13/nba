@@ -18,7 +18,7 @@ export class Equipos {
   private _equipos = signal<Team[]>([]);
   private _loading = signal(false);
   private _loaded = signal(false);
-  private readonly API_URL = 'https://api.balldontlie.io/v1/teams';
+  // private readonly API_URL = 'https://api.balldontlie.io/v1/teams';
   private readonly baseUrl = 'http://localhost:3000/teams';
   private _error = signal<string | null>(null);
   private _team = signal<any>(null);
@@ -36,12 +36,9 @@ export class Equipos {
     this._loaded.set(true);
     this._loading.set(true);
     this._error.set(null);
-    const headers = new HttpHeaders({
-      Authorization: this.API_KEY,
-    });
-    this.http.get(this.API_URL, {headers}).subscribe({
+    this.http.get(this.baseUrl).subscribe({
       next: (response:any) =>{
-        this._equipos.set(response.data);
+        this._equipos.set(response);
       }, error: err => {
           this._error.set('Error cargando los equipos');
       }, complete: () => {

@@ -27,4 +27,31 @@ model Team {
   division     String
   full_name    String
   name         String
+
+  players      Player[]
+}
+
+model Player {
+  id            Int     @id @default(autoincrement())
+  first_name    String
+  last_name     String
+  position      String
+  height_feet   Int?
+  height_inches Int?
+  weight_pounds Int?
+
+  teamId        Int
+  team          Team    @relation(fields: [teamId], references: [id])
+
+  stats         PlayerStats?
+}
+
+model PlayerStats {
+  id       Int     @id @default(autoincrement())
+  playerId Int     @unique
+  ppg      Float
+  rpg      Float
+  apg      Float
+
+player   Player  @relation(fields: [playerId], references: [id])
 }
