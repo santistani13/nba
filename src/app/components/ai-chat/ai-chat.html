@@ -1,0 +1,34 @@
+<div class="chat-button" (click)="toggleChat()">
+    💬
+  </div>
+  
+  @if(isOpen){
+    <div class="chat-window">
+  
+      <div class="messages">
+        @for (msg of chat.messages(); track $index) {
+          <div 
+            [class.user]="msg.role === 'user'"
+            [class.assistant]="msg.role === 'assistant'"
+            [class.typing]="msg.typing">
+  
+            @if (msg.typing) {
+              <span></span><span></span><span></span>
+            } @else {
+              {{ msg.content }}
+            }
+  
+          </div>
+        }
+      </div>
+  
+      <div class="input-container">
+        <input
+          [(ngModel)]="userInput"
+          (keydown.enter)="send()"
+          placeholder="Preguntame algo..."
+        />
+      </div>
+  
+    </div>
+  }

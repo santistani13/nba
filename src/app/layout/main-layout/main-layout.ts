@@ -5,10 +5,11 @@ import { FooterComponent } from '../footer/footer';
 import { ToastComponent } from "../../components/toast-component/toast-component";
 import { ToastService } from '../../services/toast-service';
 import { AuthService } from '../../services/auth.service';
+import { AiChat } from "../../components/ai-chat/ai-chat";
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, MenuComponent, FooterComponent, ToastComponent],
+  imports: [RouterOutlet, MenuComponent, FooterComponent, ToastComponent, AiChat],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })

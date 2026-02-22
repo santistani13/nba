@@ -28,8 +28,7 @@ export class JugadoresService {
   private _jugadores = signal<Player[]>([])
   private _loading = signal(false);
   private _error = signal<string | null>(null);
-  baseUrl = 'https://api.balldontlie.io/v1/players';
-  API_KEY = 'd684d11a-86d1-4704-899a-a169aa4e1ad4';
+  baseUrl = 'http://localhost:3000/jugadores';
   jugadores = this._jugadores.asReadonly();
   loading = this._loading.asReadonly();
   error = this._error.asReadonly();
@@ -43,12 +42,11 @@ export class JugadoresService {
       
     this._loading.set(true);
     this._error.set(null)
-    const headers = new HttpHeaders({
-      Authorization: this.API_KEY,
-    });
-    this.http.get(`${this.baseUrl}/?search=${name}`, {headers:headers}).subscribe({
+    
+    this.http.get(`${this.baseUrl}`, {params: {name}}).subscribe({
       next: (response:any) =>{
-        this._jugadores.set(response.data);
+        console.log(response)
+        this._jugadores.set(response);
       }, error: (err) =>{
         this._error.set('No se pudo obtener el jugador');
       }, complete: () =>{

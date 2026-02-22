@@ -18,7 +18,6 @@ export class Equipos {
   private _equipos = signal<Team[]>([]);
   private _loading = signal(false);
   private _loaded = signal(false);
-  // private readonly API_URL = 'https://api.balldontlie.io/v1/teams';
   private readonly baseUrl = 'http://localhost:3000/teams';
   private _error = signal<string | null>(null);
   private _team = signal<any>(null);
