@@ -41,7 +41,16 @@ export const routes: Routes = [
           },
           {
             path: 'jugadores',
-            loadComponent: () => import('./components/jugadores/jugadores').then(m => m.Jugadores),
+            children: [
+              {
+                path: '',
+                loadComponent: () => import('./components/jugadores/jugadores').then(m => m.Jugadores),
+              },
+              {
+                path: ':id',
+                loadComponent: () => import('./components/detalle-jugador/detalle-jugador').then(m => m.DetalleJugador),
+              }
+            ]
           },
           {
             path: 'estadisticas',

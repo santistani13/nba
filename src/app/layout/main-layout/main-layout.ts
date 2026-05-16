@@ -6,10 +6,11 @@ import { ToastComponent } from "../../components/toast-component/toast-component
 import { ToastService } from '../../services/toast-service';
 import { AuthService } from '../../services/auth.service';
 import { AiChat } from "../../components/ai-chat/ai-chat";
+import { PartidosSlider } from '../../components/partidos-slider/partidos-slider';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, MenuComponent, FooterComponent, ToastComponent, AiChat],
+  imports: [RouterOutlet, MenuComponent, FooterComponent, ToastComponent, AiChat, PartidosSlider],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })

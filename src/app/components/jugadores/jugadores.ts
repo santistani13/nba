@@ -1,11 +1,12 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { JugadoresService } from '../../services/jugadores-service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-jugadores',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './jugadores.html',
   styleUrl: './jugadores.css',
 })

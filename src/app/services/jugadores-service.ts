@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-interface Player {
+
+export interface Player {
   id: number;
   first_name: string;
   last_name: string;
@@ -13,46 +14,59 @@ interface Player {
     full_name: string;
     abbreviation: string;
     conference: 'East' | 'West';
+    city: string;
+    division: string;
   };
-  lastTenGames?: [
-  ];
-  stats?:[
+}
 
-  ]
+export interface PlayerDetail extends Player {
+  stats: { ppg: number; rpg: number; apg: number } | null;
+  championships: { total: number; years: number[] };
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class JugadoresService {
-  private _jugadores = signal<Player[]>([])
+  private _jugadores = signal<Player[]>([]);
+  private _jugador = signal<PlayerDetail | null>(null);
   private _loading = signal(false);
+  private _loadingDetail = signal(false);
   private _error = signal<string | null>(null);
+  private _errorDetail = signal<string | null>(null);
+
   baseUrl = 'http://localhost:3000/jugadores';
   jugadores = this._jugadores.asReadonly();
+  jugador = this._jugador.asReadonly();
   loading = this._loading.asReadonly();
+  loadingDetail = this._loadingDetail.asReadonly();
   error = this._error.asReadonly();
-  constructor(private http: HttpClient){}
+  errorDetail = this._errorDetail.asReadonly();
 
-  getJugador(name:string){
-    if(!name){
+  constructor(private http: HttpClient) {}
+
+  getJugador(name: string) {
+    if (!name) {
       this._jugadores.set([]);
       return;
     }
-      
     this._loading.set(true);
-    this._error.set(null)
-    
-    this.http.get(`${this.baseUrl}`, {params: {name}}).subscribe({
-      next: (response:any) =>{
-        console.log(response)
-        this._jugadores.set(response);
-      }, error: (err) =>{
-        this._error.set('No se pudo obtener el jugador');
-      }, complete: () =>{
-        this._loading.set(false);
-      }
-    })
+    this._error.set(null);
+    this.http.get<Player[]>(`${this.baseUrl}`, { params: { name } }).subscribe({
+      next: (response) => this._jugadores.set(response),
+      error: () => this._error.set('No se pudo obtener el jugador'),
+      complete: () => this._loading.set(false),
+    });
   }
 
+  getJugadorById(id: number) {
+    this._loadingDetail.set(true);
+    this._errorDetail.set(null);
+    this._jugador.set(null);
+    this.http.get<PlayerDetail>(`${this.baseUrl}/${id}`).subscribe({
+      next: (response) => this._jugador.set(response),
+      error: () => this._errorDetail.set('No se pudo cargar el jugador'),
+      complete: () => this._loadingDetail.set(false),
+    });
+  }
 }

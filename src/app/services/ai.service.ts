@@ -13,7 +13,7 @@ export interface ChatMessage {
     messages = signal<ChatMessage[]>([
         {
           role: 'assistant',
-          content: '👋 Hola! Soy tu guía NBA. Preguntame sobre cuanto promedia cada jugador (puntos, asistencias, rebotes). Por ahora solo soporto eso 😅'
+          content: '👋 Hola! Soy tu guía NBA. Puedo decirte cuánto promedia cualquier jugador, comparar dos y decirte quién se la come al otro 😏, o darte mi opinión sobre los partidos de hoy y decirte quién va a ganar 🏀'
         }
       ]);
     baseApi = 'http://localhost:3000/ai/chat';

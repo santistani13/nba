@@ -8,7 +8,7 @@
       </app-menu>
      </div>
    
-    <div class="flex flex-col flex-1 bg-gray-100">
+    <div class="flex flex-col flex-1 min-w-0 overflow-hidden bg-gray-100">
   
       <header class="h-14 bg-gray-900 border-b border-gray-800 shadow flex items-center px-4">
   
@@ -40,7 +40,9 @@
         </div>
       
       </header>
-      
+
+      <app-partidos-slider></app-partidos-slider>
+
       <main class="flex-1 p-6 bg-gray-950">
         <router-outlet />
       </main>

@@ -4,7 +4,12 @@
   
   @if(isOpen){
     <div class="chat-window">
-  
+
+      <div class="chat-header">
+        <span>🏀 NBA Chat</span>
+        <button class="close-btn" (click)="toggleChat()">✕</button>
+      </div>
+
       <div class="messages">
         @for (msg of chat.messages(); track $index) {
           <div 

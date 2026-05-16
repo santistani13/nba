@@ -15,7 +15,10 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
   @for (player of jugadoresFiltrados(); track player.id) {
-    <div class="bg-gray-800 p-4 rounded">
+    <div
+      class="player-card bg-gray-800 p-4 rounded cursor-pointer"
+      [routerLink]="['/jugadores', player.id]"
+    >
       <h3 class="font-bold">
         {{ player.first_name }} {{ player.last_name }}
       </h3>

@@ -4,10 +4,17 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('home')
 export class HomeController {
-    constructor(private homeService: HomeService){}
-    @UseGuards(JwtAuthGuard)
-    @Get('overview') 
-    getOverview(){
-        return this.homeService.getOverview();
-    }
+  constructor(private homeService: HomeService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Get('overview')
+  getOverview() {
+    return this.homeService.getOverview();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('games')
+  getGames() {
+    return this.homeService.getGames();
+  }
 }

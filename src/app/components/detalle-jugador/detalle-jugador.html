@@ -1,0 +1,102 @@
+@if (loading()) {
+  <div class="loader-wrap">
+    <div class="spinner"></div>
+  </div>
+}
+
+@if (error()) {
+  <p class="text-red-400 text-center mt-10">{{ error() }}</p>
+}
+
+@if (!loading() && !error() && jugador()) {
+<div class="detail-wrapper">
+
+  <!-- HERO -->
+  <div class="hero-card">
+    <div class="hero-glow"></div>
+    <img
+      class="player-photo"
+      [src]="photoUrl()"
+      [alt]="jugador()!.first_name"
+      (error)="onImgError($event)"
+    />
+    <div class="hero-info">
+      <p class="hero-team">{{ jugador()!.team.city }} · {{ jugador()!.team.full_name }}</p>
+      <h1 class="hero-name">{{ jugador()!.first_name }} {{ jugador()!.last_name }}</h1>
+      <div class="badges">
+        <span class="badge">{{ jugador()!.position }}</span>
+        <span class="badge">{{ jugador()!.team.conference }}ern Conference</span>
+        <span class="badge">{{ jugador()!.team.division }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <p class="section-title">Estadísticas de temporada</p>
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <span class="stat-value">{{ jugador()!.stats?.ppg ?? '–' }}</span>
+      <span class="stat-label">Puntos por partido</span>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" [style.width.%]="barWidth(jugador()!.stats?.ppg, 40)"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-value">{{ jugador()!.stats?.rpg ?? '–' }}</span>
+      <span class="stat-label">Rebotes por partido</span>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" [style.width.%]="barWidth(jugador()!.stats?.rpg, 20)"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-value">{{ jugador()!.stats?.apg ?? '–' }}</span>
+      <span class="stat-label">Asistencias por partido</span>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" [style.width.%]="barWidth(jugador()!.stats?.apg, 15)"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FÍSICO -->
+  @if (jugador()!.height_feet || jugador()!.weight_pounds) {
+    <p class="section-title">Físico</p>
+    <div class="physical-grid">
+      @if (jugador()!.height_feet) {
+        <div class="physical-card">
+          <span class="physical-value">{{ jugador()!.height_feet }}'{{ jugador()!.height_inches }}"</span>
+          <span class="physical-label">Altura</span>
+        </div>
+      }
+      @if (jugador()!.weight_pounds) {
+        <div class="physical-card">
+          <span class="physical-value">{{ jugador()!.weight_pounds }} lbs</span>
+          <span class="physical-label">Peso</span>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- CAMPEONATOS -->
+  <p class="section-title">Anillos 💍</p>
+  <div class="champ-card">
+    @if (jugador()!.championships.total === 0) {
+      <p class="text-gray-400 text-sm">Sin campeonatos NBA todavía.</p>
+    } @else {
+      <p class="champ-total">
+        {{ jugador()!.championships.total }}
+        {{ jugador()!.championships.total === 1 ? 'campeonato' : 'campeonatos' }} NBA
+      </p>
+      <div class="champ-years">
+        @for (year of jugador()!.championships.years; track year) {
+          <span class="year-badge">{{ year }}</span>
+        }
+      </div>
+    }
+  </div>
+
+</div>
+}

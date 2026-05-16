@@ -1,0 +1,27 @@
+<div class="strip">
+  <div class="strip-label">
+    <span class="dot"></span>
+    <span class="label-text">HOY · {{ today }}</span>
+  </div>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      @for (game of gamesDisplay(); track $index) {
+        <div class="game-card">
+          <div class="team">
+            <span class="abbr">{{ game.away.abbr }}</span>
+            <span class="team-name">{{ game.away.name }}</span>
+          </div>
+          <div class="vs-block">
+            <span class="vs">VS</span>
+            <span class="time">{{ game.time }}</span>
+          </div>
+          <div class="team">
+            <span class="abbr">{{ game.home.abbr }}</span>
+            <span class="team-name">{{ game.home.name }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
