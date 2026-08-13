@@ -21,13 +21,19 @@ export class Equipos {
   private readonly baseUrl = 'http://localhost:3000/teams';
   private _error = signal<string | null>(null);
   private _team = signal<any>(null);
+  private _search = signal('');
   equipos = this._equipos.asReadonly();
   loading = this._loading.asReadonly();
   loaded = this._loaded.asReadonly();
   error = this._error.asReadonly();
   equipo = this._team.asReadonly();
+  search = this._search.asReadonly();
   API_KEY = 'd684d11a-86d1-4704-899a-a169aa4e1ad4';
   constructor(private http:HttpClient){
+  }
+
+  setSearch(value: string) {
+    this._search.set(value);
   }
 
   getEquipos(){

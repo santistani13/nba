@@ -2,9 +2,35 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { PrismaService } from 'prisma/prisma.service';
+
+// Groq es la reposición hosteada de Ollama: misma familia de modelos (Llama),
+// API gratuita, y compatible con el formato de OpenAI. Ollama corre local y
+// nadie de afuera puede pegarle, por eso el asistente de IA no funcionaba en producción.
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
+
 @Injectable()
 export class AiService {
     constructor(private readonly httpService: HttpService, private prisma: PrismaService) {}
+
+    private async askGroq(prompt: string): Promise<string> {
+      const apiKey = process.env.GROQ_API_KEY;
+      if (!apiKey) {
+        throw new Error('GROQ_API_KEY no está configurada');
+      }
+      const response = await firstValueFrom(
+        this.httpService.post(
+          GROQ_URL,
+          {
+            model: GROQ_MODEL,
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.3,
+          },
+          { headers: { Authorization: `Bearer ${apiKey}` } },
+        ),
+      );
+      return response.data.choices[0].message.content as string;
+    }
     async askModel(message: string) {
         const intent = await this.detectIntent(message);
       
@@ -60,17 +86,9 @@ Pregunta:
 ${message}
 `;
       
-        const response = await firstValueFrom(
-          this.httpService.post('http://localhost:11434/api/generate', {
-            model: 'llama3',
-            prompt,
-            stream: false,
-          }),
-        );
-      
-        const raw: string = response.data.response;
+        const raw = await this.askGroq(prompt);
         const jsonStr = (raw.match(/\{[\s\S]*\}/) ?? raw.match(/\{[\s\S]*/))?.at(0);
-        if (!jsonStr) throw new Error(`Ollama no devolvió JSON: ${raw}`);
+        if (!jsonStr) throw new Error(`El modelo no devolvió JSON: ${raw}`);
 
         let parsed: any;
         try {
@@ -183,14 +201,6 @@ Responde la siguiente pregunta de forma clara y fundamentada en los datos:
 ${originalQuestion}
 `;
       
-        const response = await firstValueFrom(
-          this.httpService.post('http://localhost:11434/api/generate', {
-            model: 'llama3',
-            prompt,
-            stream: false,
-          }),
-        );
-      
-        return response.data.response;
+        return this.askGroq(prompt);
       }
 }

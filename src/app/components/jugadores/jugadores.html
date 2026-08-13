@@ -2,6 +2,7 @@
   type="text"
   placeholder="Buscar jugador"
   class="bg-gray-800 text-white p-2 rounded"
+  [value]="search()"
   (input)="onSearch($any($event.target).value)"
 />
 

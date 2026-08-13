@@ -15,7 +15,7 @@
       <label for="equipo" class="block text-sm/6 font-medium text-white">Buscar equipo</label>
       <div class="mt-2">
         <div class="flex items-center rounded-md bg-white/5 outline-1 -outline-offset-1 outline-gray-600 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-500 max-w-75">
-          <input (input)="search.set($any($event.target).value)" id="equipo" type="text" name="equipo" placeholder="" class="block min-w-0 max-w-75 grow bg-gray-800 py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
+          <input [value]="search()" (input)="onSearch($any($event.target).value)" id="equipo" type="text" name="equipo" placeholder="" class="block min-w-0 max-w-75 grow bg-gray-800 py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
         </div>
       </div>
     </div>

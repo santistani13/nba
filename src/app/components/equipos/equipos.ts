@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Equipos } from '../../services/equipos.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink, RouterModule } from "@angular/router";
@@ -18,7 +18,7 @@ export class EquiposComponent implements OnInit{
   equipos = this.equiposService.equipos;
   loading = this.equiposService.loading;
   error = this.equiposService.error;
-  search = signal('');
+  search = this.equiposService.search;
   favoritos = this.favoritosService.favoritos;
   private isBrowser = isPlatformBrowser(this.platformId);
 
@@ -40,6 +40,10 @@ export class EquiposComponent implements OnInit{
   }
   
   
+  onSearch(term: string) {
+    this.equiposService.setSearch(term);
+  }
+
   toggleToFavoritos(event:MouseEvent,team:any){
     event?.stopPropagation();
     this.favoritosService.toggle(team);

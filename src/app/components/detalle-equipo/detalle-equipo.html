@@ -11,7 +11,11 @@
   }
   
   @if (!loading() && !error() && equipo()) {
-  
+
+    <a [routerLink]="['/equipos']" class="inline-flex items-center gap-2 text-amber-500 hover:opacity-75 text-sm mb-6">
+      &larr; Volver a equipos
+    </a>
+
     <!-- HEADER -->
     <div class="flex items-center gap-4 mb-8">
       <img

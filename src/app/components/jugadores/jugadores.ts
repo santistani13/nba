@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { JugadoresService } from '../../services/jugadores-service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -12,7 +12,7 @@ import { Subscription, timer } from 'rxjs';
 })
 export class Jugadores {
   private jugadoresService = inject(JugadoresService);
-  search =signal('');
+  search = this.jugadoresService.search;
   jugadores = this.jugadoresService.jugadores;
   loading = this.jugadoresService.loading;
   error = this.jugadoresService.error;
@@ -36,6 +36,6 @@ export class Jugadores {
   });
 
   onSearch(name:string){
-    this.search.set(name);
+    this.jugadoresService.setSearch(name);
   }
 }

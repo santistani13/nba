@@ -11,6 +11,10 @@
 @if (!loading() && !error() && jugador()) {
 <div class="detail-wrapper">
 
+  <a [routerLink]="['/jugadores']" class="back-button">
+    &larr; Volver a jugadores
+  </a>
+
   <!-- HERO -->
   <div class="hero-card">
     <div class="hero-glow"></div>

@@ -34,6 +34,7 @@ export class JugadoresService {
   private _loadingDetail = signal(false);
   private _error = signal<string | null>(null);
   private _errorDetail = signal<string | null>(null);
+  private _search = signal('');
 
   baseUrl = 'http://localhost:3000/jugadores';
   jugadores = this._jugadores.asReadonly();
@@ -42,8 +43,13 @@ export class JugadoresService {
   loadingDetail = this._loadingDetail.asReadonly();
   error = this._error.asReadonly();
   errorDetail = this._errorDetail.asReadonly();
+  search = this._search.asReadonly();
 
   constructor(private http: HttpClient) {}
+
+  setSearch(value: string) {
+    this._search.set(value);
+  }
 
   getJugador(name: string) {
     if (!name) {

@@ -1,11 +1,11 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JugadoresService } from '../../services/jugadores-service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-detalle-jugador',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './detalle-jugador.html',
   styleUrl: './detalle-jugador.css',
 })

@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Equipos } from '../../services/equipos.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-equipo',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './detalle-equipo.html',
   styleUrl: './detalle-equipo.css',
 })
