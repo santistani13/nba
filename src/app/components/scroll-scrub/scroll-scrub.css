@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.scrub-stage {
+  position: relative;
+}
+
+.scrub-sticky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.scrub-sticky.is-pinned {
+  position: fixed;
+  top: 0;
+}
+
+.scrub-sticky.is-after {
+  top: auto;
+  bottom: 0;
+}
+
+.scrub-frames {
+  position: absolute;
+  inset: 0;
+}
+
+.scrub-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: opacity;
+}
+
+.scrub-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(3, 7, 18, 0.15) 0%,
+    rgba(3, 7, 18, 0.2) 55%,
+    rgba(3, 7, 18, 0.94) 100%
+  );
+}
+
+.scrub-info {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem 4.5rem;
+  pointer-events: none;
+}
+
+.scrub-info-block {
+  position: absolute;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  will-change: opacity, transform;
+  pointer-events: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.scrub-info-block.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scrub-progress {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.scrub-progress-fill {
+  height: 100%;
+  background: #f59e0b;
+}

@@ -1,0 +1,28 @@
+<div class="scrub-stage" [style.height.vh]="stageHeightVh">
+  <div
+    class="scrub-sticky"
+    [class.is-pinned]="pinState() === 'pinned'"
+    [class.is-after]="pinState() === 'after'"
+    [style.left.px]="pinState() === 'pinned' ? pinLeft() : null"
+    [style.width.px]="pinState() === 'pinned' ? pinWidth() : null"
+  >
+    <div class="scrub-frames">
+      @for (frame of frames; track frame.url; let i = $index) {
+        <img [src]="frame.url" alt="" class="scrub-frame" [style.opacity]="frameOpacity(i)" />
+      }
+    </div>
+    <div class="scrub-vignette"></div>
+
+    <div class="scrub-info">
+      @for (tpl of infoTemplates; track $index; let i = $index) {
+        <div class="scrub-info-block" [class.is-active]="isActiveInfo(i)">
+          <ng-container [ngTemplateOutlet]="tpl" />
+        </div>
+      }
+    </div>
+
+    <div class="scrub-progress">
+      <div class="scrub-progress-fill" [style.width.%]="progress() * 100"></div>
+    </div>
+  </div>
+</div>
