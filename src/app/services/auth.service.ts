@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 interface LoginResponse {
     access_token: string;
   }
@@ -10,7 +11,7 @@ interface LoginResponse {
 })
 
 export class AuthService {
-    private apiUrl = 'http://localhost:3000/auth';
+    private apiUrl = `${environment.apiUrl}/auth`;
     private _token = signal<string | null>(null);
     error = signal<string | null>(null)
     userEmail = signal<string | null>(null)

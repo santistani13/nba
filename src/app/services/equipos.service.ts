@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { response } from 'express';
+import { environment } from '../../environments/environment';
  interface Team {
   id: number;
   abbreviation: string;
@@ -18,7 +19,7 @@ export class Equipos {
   private _equipos = signal<Team[]>([]);
   private _loading = signal(false);
   private _loaded = signal(false);
-  private readonly baseUrl = 'http://localhost:3000/teams';
+  private readonly baseUrl = `${environment.apiUrl}/teams`;
   private _error = signal<string | null>(null);
   private _team = signal<any>(null);
   private _search = signal('');

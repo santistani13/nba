@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 export interface Player {
   id: number;
@@ -36,7 +37,7 @@ export class JugadoresService {
   private _errorDetail = signal<string | null>(null);
   private _search = signal('');
 
-  baseUrl = 'http://localhost:3000/jugadores';
+  baseUrl = `${environment.apiUrl}/jugadores`;
   jugadores = this._jugadores.asReadonly();
   jugador = this._jugador.asReadonly();
   loading = this._loading.asReadonly();

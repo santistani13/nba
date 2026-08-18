@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MatchDetailService {
-  private baseUrl = 'http://localhost:3000/matchresults';
+  private baseUrl = `${environment.apiUrl}/matchresults`;
   _matches = signal<any[]>([]);
   matches = this._matches.asReadonly();
     constructor(private http: HttpClient){}

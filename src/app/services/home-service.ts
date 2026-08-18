@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { bestTeamsSeason, mostChampionships, playersLeaders } from '../models/overviewModels';
+import { environment } from '../../environments/environment';
 
 export interface Game {
   id: number;
@@ -13,7 +14,7 @@ export interface Game {
   providedIn: 'root',
 })
 export class HomeService {
-  private baseUrl = 'http://localhost:3000/home';
+  private baseUrl = `${environment.apiUrl}/home`;
   _lideresPPP = signal<playersLeaders[]>([]);
   _lideresAPP = signal<playersLeaders[]>([]);
   _lideresRPP = signal<playersLeaders[]>([]);

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 export interface ChatMessage {
     role: 'user' | 'assistant';
     content: string;
@@ -16,7 +17,7 @@ export interface ChatMessage {
           content: '👋 Hola! Soy tu guía NBA. Puedo decirte cuánto promedia cualquier jugador, comparar dos y decirte quién se la come al otro 😏, o darte mi opinión sobre los partidos de hoy y decirte quién va a ganar 🏀'
         }
       ]);
-    baseApi = 'http://localhost:3000/ai/chat';
+    baseApi = `${environment.apiUrl}/ai/chat`;
   constructor(private http: HttpClient) {}
 
   sendMessage(message: string) {
