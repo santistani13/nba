@@ -18,9 +18,36 @@ export class JugadoresService {
   constructor(private prismaService: PrismaService) {}
 
   getJugador(name: string) {
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+
+    // Búsqueda de una sola palabra: puede matchear nombre o apellido.
+    if (parts.length <= 1) {
+      return this.prismaService.player.findMany({
+        where: {
+          OR: [
+            { first_name: { contains: name, mode: 'insensitive' } },
+            { last_name: { contains: name, mode: 'insensitive' } },
+          ],
+        },
+        include: { team: true },
+      });
+    }
+
+    // Búsqueda de nombre completo (ej: "lebron james"): la frase entera
+    // no está contenida ni en first_name ni en last_name por separado,
+    // así que hay que partirla y matchear cada parte contra su campo.
+    const first = parts[0];
+    const rest = parts.slice(1).join(' ');
+
     return this.prismaService.player.findMany({
       where: {
         OR: [
+          {
+            AND: [
+              { first_name: { contains: first, mode: 'insensitive' } },
+              { last_name: { contains: rest, mode: 'insensitive' } },
+            ],
+          },
           { first_name: { contains: name, mode: 'insensitive' } },
           { last_name: { contains: name, mode: 'insensitive' } },
         ],
