@@ -7,7 +7,9 @@ import { PrismaService } from 'prisma/prisma.service';
 // API gratuita, y compatible con el formato de OpenAI. Ollama corre local y
 // nadie de afuera puede pegarle, por eso el asistente de IA no funcionaba en producción.
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+// llama-3.3-70b-versatile fue deprecado por Groq; openai/gpt-oss-120b es el
+// reemplazo recomendado actualmente para uso general / agentic.
+const GROQ_MODEL = 'openai/gpt-oss-120b';
 
 @Injectable()
 export class AiService {
