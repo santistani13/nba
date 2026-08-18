@@ -2,173 +2,135 @@
 
   <!-- HERO -->
   <section class="parallax-band hero-band" [style.background-image]="'url(' + heroImage + ')'">
+    <div class="hero-kenburns" [style.background-image]="'url(' + heroImage + ')'"></div>
     <div class="band-overlay hero-overlay"></div>
+    <div class="band-fade band-fade-bottom"></div>
+
+    <span class="hero-orb hero-orb-1"></span>
+    <span class="hero-orb hero-orb-2"></span>
+
     <div class="band-content hero-content" appReveal>
-      <span class="chip">🏆 Campeones de la NBA</span>
-      <h1 class="hero-title">Los Knicks se consagraron campeones</h1>
+      <span class="chip">🏆 La liga más grande del mundo, en tu bolsillo</span>
+      <h1 class="hero-title">
+        Viví la NBA <span class="hl">jugada a jugada</span>
+      </h1>
       <p class="hero-subtitle">
-        Bienvenido a la NBA App: seguí en vivo a tus jugadores y equipos favoritos,
-        estadísticas de la liga y toda la historia del básquet americano.
+        Jugadores, equipos y estadísticas en tiempo real. Preguntale a la IA
+        quién promedia más puntos, comparalos y descubrí quién se la come al otro.
       </p>
       <div class="hero-actions">
         <a [routerLink]="['/jugadores']" class="btn btn-primary">Ver jugadores</a>
         <a [routerLink]="['/equipos']" class="btn btn-ghost">Ver equipos</a>
       </div>
     </div>
-    <div class="scroll-hint" appReveal>
+
+    <div class="scroll-hint" appReveal="200">
       <span>Descubrí más</span>
       <span class="scroll-arrow">↓</span>
     </div>
   </section>
 
+  <!-- STATS STRIP -->
   <div class="content-container">
-    @if (loading()) {
-      <div class="text-gray-400 text-center mt-6">
-        Cargando estadísticas...
-      </div>
-    }
-
-    @if (error()) {
-      <div class="text-red-400 text-center mt-6">
-        {{ error() }}
-      </div>
-    }
+    <div class="stats-strip">
+      @for (stat of statsStrip; track stat.label; let i = $index) {
+        <div class="stat-chip" [appReveal]="i * 90">
+          <span class="stat-icon">{{ stat.icon }}</span>
+          <div>
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
-  @if (!error() && !loading()) {
+  <!-- INTRO IA -->
+  <div class="content-container">
+    <section class="ai-intro">
+      <div class="ai-intro-text" appReveal>
+        <span class="s-eyebrow">Tu asistente NBA</span>
+        <h2 class="ai-intro-title">No es un chatbot cualquiera, <span class="hl">lee tu base de datos</span></h2>
+        <p class="ai-intro-desc">
+          Cada respuesta sale de datos reales: promedios, equipos y campeonatos.
+          La IA entiende la pregunta y va directo a buscar el dato antes de contestar.
+        </p>
+      </div>
+    </section>
+  </div>
 
-    <!-- RECORRIDO: toda la info de la liga contada mientras scrolleás -->
-    <app-scroll-scrub [frames]="scrubPhotos" [stageHeightVh]="300">
-
-      <ng-template>
-        <div class="scrub-card">
-          <h3 class="scrub-card-title">Cada noche, la mejor liga del mundo</h3>
-          <p class="scrub-card-desc">
-            Seguí los partidos, las estadísticas y las historias de la NBA en un solo lugar.
-          </p>
+  <!-- BANDA 1: la IA en acción (chat real) -->
+  <section class="parallax-band story-band" [style.background-image]="'url(' + aiDemo.image + ')'">
+    <div class="band-fade band-fade-top"></div>
+    <div class="band-overlay story-overlay"></div>
+    <div class="band-content story-content">
+      <div class="ai-card" appReveal>
+        <div class="ai-card-header">
+          <span class="story-eyebrow">{{ aiDemo.eyebrow }}</span>
+          <h3 class="story-title">{{ aiDemo.title }}</h3>
+          <span class="story-icon">{{ aiDemo.icon }}</span>
         </div>
-      </ng-template>
 
-      <ng-template>
-        <div class="scrub-card">
-          <div class="scrub-card-header">
-            <h3 class="scrub-card-title">Líderes en puntos</h3>
-            <span class="text-2xl">🏀</span>
-          </div>
-          <ul class="scrub-card-list">
-            @for (player of lideresPuntos().slice(0, 4); track player.id) {
-              <li class="leader-row">
-                <span class="leader-info">
-                  <img [src]="teamLogo(player.team)" alt="" class="team-logo" loading="lazy" />
-                  {{ player.name }} ({{ player.team }})
-                </span>
-                <span class="font-semibold">{{ player.value }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-      </ng-template>
-
-      <ng-template>
-        <div class="scrub-card">
-          <div class="scrub-card-header">
-            <h3 class="scrub-card-title">Líderes en asistencias</h3>
-            <span class="text-2xl">🤝</span>
-          </div>
-          <ul class="scrub-card-list">
-            @for (player of lideresAsistencias().slice(0, 4); track player.id) {
-              <li class="leader-row">
-                <span class="leader-info">
-                  <img [src]="teamLogo(player.team)" alt="" class="team-logo" loading="lazy" />
-                  {{ player.name }} ({{ player.team }})
-                </span>
-                <span class="font-semibold">{{ player.value }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-      </ng-template>
-
-      <ng-template>
-        <div class="scrub-card">
-          <div class="scrub-card-header">
-            <h3 class="scrub-card-title">Líderes en rebotes</h3>
-            <span class="text-2xl">🧱</span>
-          </div>
-          <ul class="scrub-card-list">
-            @for (player of lideresRebotes().slice(0, 4); track player.id) {
-              <li class="leader-row">
-                <span class="leader-info">
-                  <img [src]="teamLogo(player.team)" alt="" class="team-logo" loading="lazy" />
-                  {{ player.name }} ({{ player.team }})
-                </span>
-                <span class="font-semibold">{{ player.value }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-      </ng-template>
-
-      <ng-template>
-        <div class="scrub-card">
-          <div class="scrub-card-header">
-            <h3 class="scrub-card-title">Mejores equipos (temporada)</h3>
-            <span class="text-2xl">🔥</span>
-          </div>
-          <ul class="scrub-card-list">
-            @for (team of mejoresEquipos().slice(0, 4); track team.id) {
-              <li class="leader-row">
-                <span class="leader-info">
-                  <img [src]="teamLogo(team.name)" alt="" class="team-logo" loading="lazy" />
-                  {{ team.name }}
-                </span>
-                <span class="font-semibold">{{ team.wins }}W - {{ team.losses }}L</span>
-              </li>
-            }
-          </ul>
-        </div>
-      </ng-template>
-
-      <ng-template>
-        <div class="scrub-card">
-          <div class="scrub-card-header">
-            <h3 class="scrub-card-title">Más campeonatos</h3>
-            <span class="text-2xl">🏆</span>
-          </div>
-          <ul class="scrub-card-list">
-            @for (team of equiposMasGanadores().slice(0, 4); track team.id) {
-              <li class="leader-row">
-                <span class="leader-info">
-                  <img [src]="teamLogo(team.name)" alt="" class="team-logo" loading="lazy" />
-                  {{ team.name }}
-                </span>
-                <span class="font-semibold">{{ team.championships }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-      </ng-template>
-
-    </app-scroll-scrub>
-
-    <!-- CIERRE: a explorar -->
-    <div class="content-container">
-      <section class="section">
-        <h2 class="section-title" appReveal>Todo esto, y mucho más</h2>
-        <div class="features-grid">
-          @for (feature of features; track feature.title; let i = $index) {
-            <a
-              [routerLink]="[feature.link]"
-              class="feature-card"
-              [appReveal]="i * 100"
+        <div class="ai-convo">
+          @for (turn of aiDemo.turns; track $index; let ti = $index) {
+            <div
+              class="ai-bubble"
+              [class.ai-bubble-user]="turn.role === 'user'"
+              [class.ai-bubble-assistant]="turn.role === 'assistant'"
+              [appReveal]="ti * 180"
             >
-              <span class="feature-icon">{{ feature.icon }}</span>
-              <h3 class="feature-title">{{ feature.title }}</h3>
-              <p class="feature-desc">{{ feature.desc }}</p>
-            </a>
+              @if (turn.role === 'assistant') {
+                <span class="ai-avatar">🤖</span>
+              }
+              <span class="ai-bubble-text">{{ turn.text }}</span>
+            </div>
           }
         </div>
-      </section>
+
+        <button type="button" class="btn btn-primary ai-cta" (click)="openAiChat()">
+          💬 Probalo ahora
+        </button>
+      </div>
     </div>
+    <div class="band-fade band-fade-bottom"></div>
+  </section>
+
+  <!-- BANDAS 2 y 3: otros features, sin chat -->
+  @for (band of storyBands; track band.title) {
+    <section class="parallax-band story-band" [style.background-image]="'url(' + band.image + ')'">
+      <div class="band-fade band-fade-top"></div>
+      <div class="band-overlay story-overlay"></div>
+      <div class="band-content story-content">
+        <div class="feature-story-card" appReveal>
+          <span class="feature-story-icon">{{ band.icon }}</span>
+          <span class="story-eyebrow">{{ band.eyebrow }}</span>
+          <h3 class="story-title">{{ band.title }}</h3>
+          <p class="feature-story-desc">{{ band.desc }}</p>
+          <a [routerLink]="[band.link]" class="btn btn-ghost">{{ band.linkLabel }} →</a>
+        </div>
+      </div>
+      <div class="band-fade band-fade-bottom"></div>
+    </section>
   }
+
+  <!-- CIERRE: a explorar -->
+  <div class="content-container">
+    <section class="section">
+      <h2 class="section-title" appReveal>Todo esto, y mucho más</h2>
+      <div class="features-grid">
+        @for (feature of features; track feature.title; let i = $index) {
+          <a
+            [routerLink]="[feature.link]"
+            class="feature-card"
+            [appReveal]="i * 100"
+          >
+            <span class="feature-icon">{{ feature.icon }}</span>
+            <h3 class="feature-title">{{ feature.title }}</h3>
+            <p class="feature-desc">{{ feature.desc }}</p>
+            <span class="feature-arrow">→</span>
+          </a>
+        }
+      </div>
+    </section>
+  </div>
 </div>

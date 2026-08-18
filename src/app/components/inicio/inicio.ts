@@ -1,44 +1,86 @@
-import { Component, effect, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HomeService } from '../../services/home-service';
-import { AuthService } from '../../services/auth.service';
 import { RevealDirective } from '../../directives/reveal.directive';
-import { ScrollScrub } from '../scroll-scrub/scroll-scrub';
-import { teamLogoUrl } from '../../models/team-logos';
+
+interface AiDemoTurn {
+  role: 'user' | 'assistant';
+  text: string;
+}
+
+interface AiDemo {
+  eyebrow: string;
+  title: string;
+  icon: string;
+  image: string;
+  turns: AiDemoTurn[];
+}
+
+interface StoryBand {
+  eyebrow: string;
+  title: string;
+  icon: string;
+  desc: string;
+  image: string;
+  link: string;
+  linkLabel: string;
+}
 
 @Component({
   selector: 'app-inicio',
-  imports: [CommonModule, RouterLink, RevealDirective, ScrollScrub],
+  imports: [CommonModule, RouterLink, RevealDirective],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
 })
 export class Inicio {
-  private homeService = inject(HomeService);
-  private authService = inject(AuthService);
-
-  lideresPuntos = this.homeService.lideresPuntos;
-  lideresAsistencias = this.homeService.lideresAsistencias;
-  lideresRebotes = this.homeService.lideresRebotes;
-  mejoresEquipos = this.homeService._bestTeams;
-  equiposMasGanadores = this.homeService._equiposMasGanadores;
-  loading = this.homeService.loading;
-  error = this.homeService.error;
-
-  teamLogo = teamLogoUrl;
+  private platformId = inject(PLATFORM_ID);
 
   readonly heroImage =
-    'https://commons.wikimedia.org/wiki/Special:FilePath/New-York_Knicks_in_the_Madison_Square_Garden_%286054203290%29.jpg?width=1920';
+    'https://commons.wikimedia.org/wiki/Special:FilePath/LeBronJamesDunkingHeat.jpg?width=1920';
 
-  // Cada foto se empareja 1 a 1 (por índice) con un <ng-template> en el
-  // html, que trae contenido real de la app (líderes, equipos, etc.)
-  readonly scrubPhotos = [
-    { url: 'https://commons.wikimedia.org/wiki/Special:FilePath/NBA_Game.jpg?width=1920' },
-    { url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kawhi_Leonard_Dunk_cropped.jpg?width=1920' },
-    { url: 'https://commons.wikimedia.org/wiki/Special:FilePath/LeBronJamesDunkingHeat.jpg?width=1920' },
-    { url: 'https://commons.wikimedia.org/wiki/Special:FilePath/AD_lakers.jpg?width=1920' },
-    { url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Basketball_net.jpg?width=1920' },
-    { url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pierce_Takes_the_Trophy.jpg?width=1920' },
+  readonly statsStrip = [
+    { icon: '🏀', value: '30', label: 'Equipos NBA' },
+    { icon: '👤', value: '60+', label: 'Jugadores con stats' },
+    { icon: '🤖', value: 'IA en vivo', label: 'Lee tu base de datos real' },
+    { icon: '⚡', value: 'Groq', label: 'Respuestas en segundos' },
+  ];
+
+  // Conversación de ejemplo: muestra cómo la IA responde con datos reales
+  // de la base (no inventa nada). Una sola banda de chat, no más.
+  readonly aiDemo: AiDemo = {
+    eyebrow: 'Preguntá lo que quieras',
+    title: 'Stats de cualquier jugador, al toque',
+    icon: '🏀',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kawhi_Leonard_Dunk_cropped.jpg?width=1920',
+    turns: [
+      { role: 'user', text: '¿Cuántos puntos promedia LeBron James?' },
+      {
+        role: 'assistant',
+        text: 'LeBron James promedia 25.2 puntos por partido con los Lakers, según los datos oficiales de la base 🏀',
+      },
+    ],
+  };
+
+  // Otras dos bandas, sin bubbles de chat: features distintos de la app.
+  readonly storyBands: StoryBand[] = [
+    {
+      eyebrow: 'Nunca los pierdas de vista',
+      title: 'Guardá tus equipos favoritos',
+      icon: '⭐',
+      desc: 'Marcá tus franquicias favoritas y accedé a ellas al instante desde cualquier parte de la app, sin tener que buscarlas cada vez.',
+      image: 'https://commons.wikimedia.org/wiki/Special:FilePath/NBA_Game.jpg?width=1920',
+      link: '/favoritos',
+      linkLabel: 'Ir a favoritos',
+    },
+    {
+      eyebrow: 'Las 30 franquicias',
+      title: 'Toda la liga, plantilla por plantilla',
+      icon: '🛡️',
+      desc: 'Desde los Celtics hasta los Lakers: historia, campeonatos y el roster completo de cada equipo de la NBA en un solo lugar.',
+      image: 'https://commons.wikimedia.org/wiki/Special:FilePath/AD_lakers.jpg?width=1920',
+      link: '/equipos',
+      linkLabel: 'Explorar equipos',
+    },
   ];
 
   readonly features = [
@@ -68,11 +110,8 @@ export class Inicio {
     },
   ];
 
-  constructor() {
-    effect(() => {
-      if (this.authService.isAuthenticated()) {
-        this.homeService.getOverview();
-      }
-    });
+  openAiChat() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    document.getElementById('ai-chat-launcher')?.click();
   }
 }

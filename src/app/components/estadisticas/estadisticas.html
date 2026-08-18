@@ -1,1 +1,171 @@
-<p>estadisticas works!</p>
+<div class="stats-wrapper -mx-6 -mt-6">
+
+  <!-- HERO -->
+  <section class="stats-hero" [style.background-image]="'url(' + heroImage + ')'">
+    <div class="stats-hero-overlay"></div>
+    <div class="stats-hero-content" appReveal>
+      <span class="chip">📊 Actualizado con cada partido</span>
+      <h1 class="stats-title">Estadísticas de la <span class="hl">liga</span></h1>
+      <p class="stats-subtitle">
+        Líderes de la temporada, mejores equipos y la historia de campeonatos de la NBA,
+        todo en un solo lugar.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-container">
+    @if (loading()) {
+      <div class="state-msg">Cargando estadísticas...</div>
+    }
+    @if (error()) {
+      <div class="state-msg state-error">{{ error() }}</div>
+    }
+
+    @if (!error() && !loading()) {
+
+      <!-- DESTACADOS -->
+      <section class="section">
+        <div class="highlight-grid">
+          @if (topScorer) {
+            <div class="highlight-card" appReveal>
+              <span class="highlight-icon">🏀</span>
+              <span class="highlight-label">Máximo anotador</span>
+              <div class="highlight-name">
+                <img [src]="teamLogo(topScorer.team)" alt="" class="team-logo" loading="lazy" />
+                {{ topScorer.name }}
+              </div>
+              <div class="highlight-value">{{ topScorer.value }} <small>PPG</small></div>
+            </div>
+          }
+          @if (topPlaymaker) {
+            <div class="highlight-card" [appReveal]="100">
+              <span class="highlight-icon">🤝</span>
+              <span class="highlight-label">Mejor asistidor</span>
+              <div class="highlight-name">
+                <img [src]="teamLogo(topPlaymaker.team)" alt="" class="team-logo" loading="lazy" />
+                {{ topPlaymaker.name }}
+              </div>
+              <div class="highlight-value">{{ topPlaymaker.value }} <small>APG</small></div>
+            </div>
+          }
+          @if (topRebounder) {
+            <div class="highlight-card" [appReveal]="200">
+              <span class="highlight-icon">🧱</span>
+              <span class="highlight-label">Mejor reboteador</span>
+              <div class="highlight-name">
+                <img [src]="teamLogo(topRebounder.team)" alt="" class="team-logo" loading="lazy" />
+                {{ topRebounder.name }}
+              </div>
+              <div class="highlight-value">{{ topRebounder.value }} <small>RPG</small></div>
+            </div>
+          }
+          @if (topTeam) {
+            <div class="highlight-card" [appReveal]="300">
+              <span class="highlight-icon">🔥</span>
+              <span class="highlight-label">Mejor récord</span>
+              <div class="highlight-name">
+                <img [src]="teamLogo(topTeam.name)" alt="" class="team-logo" loading="lazy" />
+                {{ topTeam.name }}
+              </div>
+              <div class="highlight-value">{{ topTeam.wins }}-{{ topTeam.losses }}</div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- LEADERBOARDS -->
+      <section class="section">
+        <h2 class="section-title" appReveal>Líderes de la temporada</h2>
+        <div class="leaderboards-grid">
+          @for (cat of leaderCategories; track cat.key; let ci = $index) {
+            <div class="leaderboard-card" [appReveal]="ci * 120">
+              <div class="leaderboard-header">
+                <span class="leaderboard-icon">{{ cat.icon }}</span>
+                <h3 class="leaderboard-title">{{ cat.title }}</h3>
+              </div>
+              <ul class="rank-list">
+                @for (player of leadersFor(cat.key).slice(0, 5); track player.id; let i = $index) {
+                  <li class="rank-row">
+                    <span class="rank-pos" [class.rank-pos-1]="i === 0">{{ i + 1 }}</span>
+                    <img [src]="teamLogo(player.team)" alt="" class="team-logo" loading="lazy" />
+                    <div class="rank-info">
+                      <span class="rank-name">{{ player.name }}</span>
+                      <span class="rank-bar-wrap">
+                        <span class="rank-bar" [style.width.%]="(player.value / maxValue(cat.key)) * 100"></span>
+                      </span>
+                    </div>
+                    <span class="rank-value">{{ player.value }}<small>{{ cat.unit }}</small></span>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- EQUIPOS -->
+      <section class="section">
+        <h2 class="section-title" appReveal>Equipos</h2>
+        <div class="teams-grid">
+          <div class="leaderboard-card" appReveal>
+            <div class="leaderboard-header">
+              <span class="leaderboard-icon">📈</span>
+              <h3 class="leaderboard-title">Mejor récord (temporada)</h3>
+            </div>
+            <ul class="rank-list">
+              @for (team of mejoresEquipos().slice(0, 6); track team.id; let i = $index) {
+                <li class="rank-row">
+                  <span class="rank-pos" [class.rank-pos-1]="i === 0">{{ i + 1 }}</span>
+                  <img [src]="teamLogo(team.name)" alt="" class="team-logo" loading="lazy" />
+                  <div class="rank-info">
+                    <span class="rank-name">{{ team.name }}</span>
+                    <span class="rank-bar-wrap">
+                      <span class="rank-bar" [style.width.%]="(team.wins / mejoresEquipos()[0].wins) * 100"></span>
+                    </span>
+                  </div>
+                  <span class="rank-value">{{ team.wins }}-{{ team.losses }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="leaderboard-card" [appReveal]="120">
+            <div class="leaderboard-header">
+              <span class="leaderboard-icon">🏆</span>
+              <h3 class="leaderboard-title">Más campeonatos (histórico)</h3>
+            </div>
+            <ul class="rank-list">
+              @for (team of equiposMasGanadores().slice(0, 6); track team.id; let i = $index) {
+                <li class="rank-row">
+                  <span class="rank-pos" [class.rank-pos-1]="i === 0">{{ i + 1 }}</span>
+                  <img [src]="teamLogo(team.name)" alt="" class="team-logo" loading="lazy" />
+                  <div class="rank-info">
+                    <span class="rank-name">{{ team.name }}</span>
+                    <span class="rank-bar-wrap">
+                      <span class="rank-bar rank-bar-gold" [style.width.%]="(team.championships / equiposMasGanadores()[0].championships) * 100"></span>
+                    </span>
+                  </div>
+                  <span class="rank-value">{{ team.championships }} 🏆</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="section stats-cta" appReveal>
+        <div class="stats-cta-card">
+          <div>
+            <h3>¿Querés más detalle?</h3>
+            <p>Buscá cualquier jugador o equipo y mirá su ficha completa.</p>
+          </div>
+          <div class="stats-cta-actions">
+            <a [routerLink]="['/jugadores']" class="btn btn-primary">Ver jugadores</a>
+            <a [routerLink]="['/equipos']" class="btn btn-ghost">Ver equipos</a>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+</div>
