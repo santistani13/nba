@@ -14,6 +14,7 @@ export class Login {
   private router = inject(Router);
   private authService = inject(AuthService)
   loading = this.authService.loading;
+  error = this.authService._error;
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

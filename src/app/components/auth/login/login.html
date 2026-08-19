@@ -27,6 +27,10 @@
           />
         </div>
   
+        @if (error()) {
+          <div class="login-error">{{ error() }}</div>
+        }
+
         <button class="btn-login" [disabled]="loading()">
           @if (loading()) {
             <span class="btn-spinner"></span>

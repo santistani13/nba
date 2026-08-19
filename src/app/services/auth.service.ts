@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -37,13 +37,31 @@ export class AuthService {
         .subscribe({
           next: (res) => {
             this.handleAuth(res.access_token)
-          }, error: (err:string) => {
-            this.error.set(err);
+          }, error: (err: HttpErrorResponse) => {
+            this.error.set(this.extractLoginError(err));
             this._loading.set(false);
           }, complete: () =>{
             this._loading.set(false);
           }
         });
+    }
+
+    private extractLoginError(err: HttpErrorResponse): string {
+      // Credenciales inválidas: el backend normalmente responde 401/400 acá.
+      if (err.status === 401 || err.status === 400) {
+        return 'Usuario o contraseña incorrectos';
+      }
+      if (err.status === 0) {
+        return 'No se pudo conectar con el servidor, intentá de nuevo';
+      }
+      const backendMessage = err.error?.message;
+      if (typeof backendMessage === 'string') {
+        return backendMessage;
+      }
+      if (Array.isArray(backendMessage) && backendMessage.length) {
+        return backendMessage[0];
+      }
+      return 'Ocurrió un error al iniciar sesión, intentá de nuevo';
     }
   
     logout() {

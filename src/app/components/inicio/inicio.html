@@ -3,16 +3,29 @@
   <!-- HERO -->
   <section class="hero-band">
     <video
+      #heroVideoA
       class="hero-video"
+      [class.hero-video-active]="activeSlot() === 'a'"
       [poster]="heroImage"
+      [src]="videoSrcA()"
       autoplay
       muted
-      loop
       playsinline
       preload="auto"
-    >
-      <source [src]="heroVideo" type="video/mp4" />
-    </video>
+      (ended)="onHeroVideoEnded('a')"
+    ></video>
+    <video
+      #heroVideoB
+      class="hero-video"
+      [class.hero-video-active]="activeSlot() === 'b'"
+      [poster]="heroImage"
+      [src]="videoSrcB()"
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+      (ended)="onHeroVideoEnded('b')"
+    ></video>
     <div class="band-overlay hero-overlay"></div>
     <div class="band-fade band-fade-bottom"></div>
 
