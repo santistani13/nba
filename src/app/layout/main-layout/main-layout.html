@@ -1,58 +1,84 @@
-<div class="flex min-h-screen bg-gray-950 text-gray-100">
+<div class="h-screen overflow-hidden bg-gray-950 text-gray-100 flex flex-col">
 
-    <!-- Menu lateral -->
-     <div class="sticky top-0 h-screen">
-        <app-menu
-        [open]="menuOpen()"
-        (toggle)="toggleMenu()">
-      </app-menu>
-     </div>
-   
-    <div class="flex flex-col flex-1 min-w-0 overflow-hidden bg-gray-100">
-  
-      <header class="h-14 bg-gray-900 border-b border-gray-800 shadow flex items-center px-4">
-  
-        <button
-          class="mr-4 text-xl"
-          (click)="toggleMenu()">
-          ☰
-        </button>
-      
-        <h1 class="font-bold">NBA App</h1>
-        <div class="flex-1"></div>
-      
-        <div class="flex items-center gap-4">
-          
-          <!-- Avatar -->
-          <div class="w-8 h-8 rounded-full bg-orange-700 flex items-center justify-center text-sm font-bold text-gray-900">
-              👤
-          </div>
-      
-          <span class="text-sm text-gray-300">
-            {{ userEmail() }}
-          </span>
-          <button
-            (click)="logout()"
-            class="text-sm px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 transition">
-            Cerrar sesion
-          </button>
-      
-        </div>
-      
-      </header>
+  <!-- Header: siempre a todo el ancho, arriba de todo (sidebar y contenido) -->
+  <header class="h-14 bg-gray-900 border-b border-gray-800 shadow flex items-center px-3 sm:px-4 gap-2 shrink-0 z-50">
 
-      <app-partidos-slider></app-partidos-slider>
+    <div class="flex items-center gap-2 shrink-0">
+      <button
+        class="text-xl leading-none shrink-0"
+        (click)="toggleMenu()"
+        aria-label="Abrir/cerrar menú">
+        ☰
+      </button>
 
-      <main class="flex-1 p-6 bg-gray-950">
-        <router-outlet />
-      </main>
-        <div>
-          <app-toast-component></app-toast-component>
-        </div>
-        <app-ai-chat></app-ai-chat>
-      <!-- Footer -->
-      <app-footer />
+      <h1 class="font-bold whitespace-nowrap">NBA App</h1>
     </div>
-  
+
+    <div class="flex-1"></div>
+
+    <div class="flex items-center gap-2 sm:gap-4">
+
+      <!-- Avatar -->
+      <div class="w-8 h-8 rounded-full bg-orange-700 flex items-center justify-center text-sm font-bold text-gray-900 shrink-0">
+          👤
+      </div>
+
+      <span class="hidden sm:inline text-sm text-gray-300 truncate max-w-[160px]">
+        {{ userEmail() }}
+      </span>
+      <button
+        (click)="logout()"
+        class="text-sm px-2.5 sm:px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 transition whitespace-nowrap">
+        Cerrar sesion
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- Barra de progreso global: se prende sola con cualquier request HTTP -->
+  <div class="h-[3px] w-full bg-gray-900 overflow-hidden shrink-0 relative z-40">
+    @if (apiLoading()) {
+      <div class="global-loading-bar"></div>
+    }
   </div>
-  
+
+  <div class="flex flex-1 min-h-0 overflow-hidden">
+
+    <!-- Backdrop mobile: clic afuera para cerrar el drawer -->
+    @if (menuOpen()) {
+      <div class="fixed inset-0 top-14 bg-black/60 z-30 md:hidden" (click)="toggleMenu()"></div>
+    }
+
+    <!-- Menu lateral: drawer fixed en mobile (debajo del header), riel/expandido en desktop. Queda fijo, no scrollea con el contenido. -->
+    <app-menu
+      [open]="menuOpen()"
+      (toggle)="toggleMenu()">
+    </app-menu>
+
+    <div class="flex flex-col flex-1 min-w-0 overflow-hidden bg-gray-100">
+
+      <!-- Slider de partidos: fijo debajo del header, no scrollea -->
+      <app-partidos-slider class="shrink-0"></app-partidos-slider>
+
+      <!-- Única zona que scrollea: contenido de la página + footer.
+           flex-col + main con flex-1 para que el footer quede pegado abajo
+           cuando el contenido es corto, y se empuje hacia abajo (scrolleable)
+           cuando el contenido es más largo que la pantalla. -->
+      <div #scrollArea class="flex-1 overflow-y-auto bg-gray-950 flex flex-col">
+        <main class="flex-1 p-3 sm:p-6 bg-gray-950">
+          <router-outlet />
+        </main>
+        <!-- Footer -->
+        <app-footer />
+      </div>
+
+      <div>
+        <app-toast-component></app-toast-component>
+      </div>
+      <app-ai-chat></app-ai-chat>
+    </div>
+
+  </div>
+
+  </div>

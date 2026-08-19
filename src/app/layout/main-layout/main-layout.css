@@ -1,0 +1,17 @@
+.global-loading-bar {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, #f59e0b, #f97316, transparent);
+  border-radius: 999px;
+  animation: globalLoadingSlide 1.1s ease-in-out infinite;
+}
+
+@keyframes globalLoadingSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}

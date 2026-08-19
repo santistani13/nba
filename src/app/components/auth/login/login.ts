@@ -13,6 +13,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService)
+  loading = this.authService.loading;
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

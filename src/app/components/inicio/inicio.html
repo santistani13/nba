@@ -1,8 +1,18 @@
 <div class="home-wrapper -mx-6 -mt-6">
 
   <!-- HERO -->
-  <section class="parallax-band hero-band" [style.background-image]="'url(' + heroImage + ')'">
-    <div class="hero-kenburns" [style.background-image]="'url(' + heroImage + ')'"></div>
+  <section class="hero-band">
+    <video
+      class="hero-video"
+      [poster]="heroImage"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+    >
+      <source [src]="heroVideo" type="video/mp4" />
+    </video>
     <div class="band-overlay hero-overlay"></div>
     <div class="band-fade band-fade-bottom"></div>
 
@@ -48,7 +58,11 @@
   <!-- INTRO IA -->
   <div class="content-container">
     <section class="ai-intro">
-      <div class="ai-intro-text" appReveal>
+      <div class="bounce-ball-wrap" appReveal>
+        <span class="bounce-ball"></span>
+        <span class="bounce-shadow"></span>
+      </div>
+      <div class="ai-intro-text" appReveal="120">
         <span class="s-eyebrow">Tu asistente NBA</span>
         <h2 class="ai-intro-title">No es un chatbot cualquiera, <span class="hl">lee tu base de datos</span></h2>
         <p class="ai-intro-desc">

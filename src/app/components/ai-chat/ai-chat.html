@@ -1,39 +1,60 @@
-<div class="chat-button" id="ai-chat-launcher" (click)="toggleChat()">
-    💬
-  </div>
-  
-  @if(isOpen){
-    <div class="chat-window">
-
-      <div class="chat-header">
-        <span>🏀 NBA Chat</span>
-        <button class="close-btn" (click)="toggleChat()">✕</button>
-      </div>
-
-      <div class="messages">
-        @for (msg of chat.messages(); track $index) {
-          <div 
-            [class.user]="msg.role === 'user'"
-            [class.assistant]="msg.role === 'assistant'"
-            [class.typing]="msg.typing">
-  
-            @if (msg.typing) {
-              <span></span><span></span><span></span>
-            } @else {
-              {{ msg.content }}
-            }
-  
-          </div>
-        }
-      </div>
-  
-      <div class="input-container">
-        <input
-          [(ngModel)]="userInput"
-          (keydown.enter)="send()"
-          placeholder="Preguntame algo..."
-        />
-      </div>
-  
-    </div>
+<button
+  type="button"
+  class="chat-button"
+  id="ai-chat-launcher"
+  (click)="toggleChat()"
+  [class.is-open]="isOpen"
+  aria-label="Abrir asistente de IA">
+  <span class="chat-button-ring"></span>
+  <span class="chat-button-icon">{{ isOpen ? '✕' : '🤖' }}</span>
+  @if (!isOpen) {
+    <span class="chat-button-badge">IA</span>
   }
+</button>
+
+@if (!isOpen) {
+  <span class="chat-button-tooltip">Preguntale a la IA 🏀</span>
+}
+
+@if(isOpen){
+  <div class="chat-window">
+
+    <div class="chat-header">
+      <span class="chat-header-title">
+        <span class="chat-header-dot"></span>
+        🤖 Asistente NBA
+      </span>
+      <button class="close-btn" (click)="toggleChat()" aria-label="Cerrar chat">✕</button>
+    </div>
+
+    <div class="messages">
+      @if (chat.messages().length === 0) {
+        <div class="empty-hint">Preguntame por stats, comparaciones o quién gana hoy 🏀</div>
+      }
+      @for (msg of chat.messages(); track $index) {
+        <div
+          [class.user]="msg.role === 'user'"
+          [class.assistant]="msg.role === 'assistant'"
+          [class.typing]="msg.typing">
+
+          @if (msg.typing) {
+            <span></span><span></span><span></span>
+          } @else {
+            {{ msg.content }}
+          }
+
+        </div>
+      }
+    </div>
+
+    <div class="input-container">
+      <input
+        [(ngModel)]="userInput"
+        (keydown.enter)="send()"
+        placeholder="Preguntame algo..."
+      />
+      <button class="send-btn" (click)="send()" aria-label="Enviar">➤</button>
+    </div>
+
+  </div>
+}

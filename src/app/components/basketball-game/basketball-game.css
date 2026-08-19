@@ -1,0 +1,74 @@
+.game-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.game-title {
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.game-score {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.game-score-value {
+  display: block;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #fbbf24;
+  font-family: 'Space Mono', monospace;
+}
+
+.game-score-label {
+  font-size: 0.68rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.game-hint {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  min-height: 1.3em;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: grab;
+  touch-action: none;
+}
+
+.game-canvas:active {
+  cursor: grabbing;
+}

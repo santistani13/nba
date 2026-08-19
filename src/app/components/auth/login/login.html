@@ -27,8 +27,13 @@
           />
         </div>
   
-        <button class="btn-login">
-          Ingresar
+        <button class="btn-login" [disabled]="loading()">
+          @if (loading()) {
+            <span class="btn-spinner"></span>
+            <span>Ingresando...</span>
+          } @else {
+            <span>Ingresar</span>
+          }
         </button>
       </form>
       <div class="login-register">

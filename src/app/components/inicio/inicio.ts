@@ -38,6 +38,13 @@ export class Inicio {
   readonly heroImage =
     'https://commons.wikimedia.org/wiki/Special:FilePath/LeBronJamesDunkingHeat.jpg?width=1920';
 
+  // Video de fondo del hero (loop, mudo). Mixkit, licencia libre para uso
+  // comercial sin atribución: https://mixkit.co/free-stock-video/two-professional-basketball-players-playing-a-match-44471/
+  // (no existe metraje real de partidos NBA con licencia libre por derechos
+  // de la liga; este es el clip más "profesional" disponible: uniforme de
+  // equipo, cancha techada tipo arena).
+  readonly heroVideo = 'https://assets.mixkit.co/videos/44471/44471-720.mp4';
+
   readonly statsStrip = [
     { icon: '🏀', value: '30', label: 'Equipos NBA' },
     { icon: '👤', value: '60+', label: 'Jugadores con stats' },

@@ -21,7 +21,7 @@ type PinState = 'before' | 'pinned' | 'after';
 @Component({
   selector: 'app-scroll-scrub',
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet],  
   templateUrl: './scroll-scrub.html',
   styleUrl: './scroll-scrub.css',
 })

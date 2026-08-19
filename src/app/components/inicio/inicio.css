@@ -110,26 +110,36 @@
 
 /* HERO */
 .hero-band {
+  position: relative;
+  z-index: 0; /* establece un stacking context propio: los z-index negativos
+                 de adentro no se escapan detrás del fondo de toda la página */
   min-height: 92vh;
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #030712;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.85) saturate(1.08);
+  animation: heroVideoZoom 22s ease-in-out infinite alternate;
+}
+
+@keyframes heroVideoZoom {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.08); }
 }
 
 .hero-overlay {
   background: linear-gradient(180deg, rgba(3, 7, 18, 0.4) 0%, rgba(3, 7, 18, 0.68) 55%, rgba(3, 7, 18, 0.98) 100%);
-}
-
-.hero-kenburns {
-  position: absolute;
-  inset: -5%;
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  animation: kenburns 18s ease-in-out infinite alternate;
-}
-
-@keyframes kenburns {
-  0%   { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.12) translate(-1.5%, -1.5%); }
 }
 
 .hero-orb {
@@ -321,11 +331,96 @@
 .ai-intro {
   padding: 2rem 0 1rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .ai-intro-text {
   max-width: 640px;
   margin: 0 auto;
+}
+
+/* BOUNCING BASKETBALL */
+.bounce-ball-wrap {
+  position: relative;
+  width: 52px;
+  height: 90px;
+  margin-bottom: 0.5rem;
+}
+
+.bounce-ball {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #ffc266 0%, #f59e0b 55%, #c2570a 100%);
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+  animation: ballBounce 1.4s cubic-bezier(0.5, 0.05, 1, 0.5) infinite;
+}
+
+.bounce-ball::before,
+.bounce-ball::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.bounce-ball::before {
+  /* costura vertical + horizontal */
+  background:
+    linear-gradient(90deg, transparent 48%, rgba(0, 0, 0, 0.55) 49%, rgba(0, 0, 0, 0.55) 51%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(0, 0, 0, 0.55) 49%, rgba(0, 0, 0, 0.55) 51%, transparent 52%);
+}
+
+.bounce-ball::after {
+  /* costuras curvas */
+  background:
+    radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.45) 56%, transparent 58%);
+}
+
+.bounce-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 40px;
+  height: 10px;
+  margin-left: -20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  filter: blur(2px);
+  animation: ballShadow 1.4s cubic-bezier(0.5, 0.05, 1, 0.5) infinite;
+}
+
+@keyframes ballBounce {
+  0%   { top: 0; transform: scale(1, 1); }
+  45%  { top: 44px; transform: scale(1, 1); }
+  50%  { top: 48px; transform: scale(1.15, 0.82); }
+  55%  { top: 44px; transform: scale(1, 1); }
+  100% { top: 0; transform: scale(1, 1); }
+}
+
+@keyframes ballShadow {
+  0%   { opacity: 0.25; transform: scale(0.7); }
+  50%  { opacity: 0.5; transform: scale(1); }
+  100% { opacity: 0.25; transform: scale(0.7); }
+}
+
+@media (max-width: 640px) {
+  .bounce-ball-wrap {
+    width: 40px;
+    height: 70px;
+  }
+  .bounce-ball {
+    width: 36px;
+    height: 36px;
+    margin-left: -18px;
+  }
 }
 
 .s-eyebrow {

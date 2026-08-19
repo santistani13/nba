@@ -13,6 +13,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 export class MatchResults implements OnInit {
   private matchResultsService = inject(MatchDetailService);
   matches = this.matchResultsService.matches;
+  loading = this.matchResultsService.loading;
   private platformId = inject(PLATFORM_ID);
   
   ngOnInit(): void {

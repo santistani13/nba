@@ -96,12 +96,36 @@
     font-size: 15px;
     cursor: pointer;
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-  
+
     &:hover {
       transform: translateY(-1px);
       box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
     }
+
+    &:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .btn-spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(18, 23, 38, 0.3);
+    border-top-color: #121726;
+    animation: btnSpin 0.7s linear infinite;
+  }
+
+  @keyframes btnSpin {
+    to { transform: rotate(360deg); }
   }
   
   .login-footer {

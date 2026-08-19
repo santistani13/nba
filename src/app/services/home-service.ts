@@ -21,9 +21,11 @@ export class HomeService {
   _bestTeams = signal<bestTeamsSeason[]>([]);
   _equiposMasGanadores = signal<mostChampionships[]>([]);
   _games = signal<Game[]>([]);
+  _gamesLoading = signal(false);
   _loading = signal(false);
   _error = signal<string | null>(null);
   games = this._games.asReadonly();
+  gamesLoading = this._gamesLoading.asReadonly();
   lideresPuntos = this._lideresPPP.asReadonly();
   lideresAsistencias = this._lideresAPP.asReadonly();
   lideresRebotes = this._lideresRPP.asReadonly();
@@ -32,8 +34,16 @@ export class HomeService {
   constructor(private http: HttpClient){}
 
   getGames() {
+    this._gamesLoading.set(true);
     this.http.get<Game[]>(`${this.baseUrl}/games`).subscribe({
       next: (games) => this._games.set(games),
+      error: (err) => {
+        // antes fallaba en silencio y el slider quedaba vacío sin ningún
+        // rastro; ahora al menos queda logueado para poder diagnosticarlo.
+        console.error('[HomeService] /home/games falló:', err);
+        this._gamesLoading.set(false);
+      },
+      complete: () => this._gamesLoading.set(false),
     });
   }
 

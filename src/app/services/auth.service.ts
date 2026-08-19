@@ -15,10 +15,12 @@ export class AuthService {
     private _token = signal<string | null>(null);
     error = signal<string | null>(null)
     userEmail = signal<string | null>(null)
+    private _loading = signal(false);
     token = this._token.asReadonly();
     _error = this.error.asReadonly();
     isAuthenticated = computed(() => !!this._token());
     _userEmail = this.userEmail.asReadonly();
+    loading = this._loading.asReadonly();
     private platformId = inject(PLATFORM_ID);
     constructor(private http: HttpClient) {
       if (isPlatformBrowser(this.platformId)) {
@@ -28,6 +30,8 @@ export class AuthService {
     }
   
     login(email: string, password: string) {
+      this.error.set(null);
+      this._loading.set(true);
       return this.http
         .post<LoginResponse>(`${this.apiUrl}/login`, { email, password })
         .subscribe({
@@ -35,8 +39,9 @@ export class AuthService {
             this.handleAuth(res.access_token)
           }, error: (err:string) => {
             this.error.set(err);
+            this._loading.set(false);
           }, complete: () =>{
-
+            this._loading.set(false);
           }
         });
     }

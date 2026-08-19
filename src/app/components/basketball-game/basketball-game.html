@@ -1,0 +1,16 @@
+<div class="game-card">
+  <div class="game-header">
+    <div>
+      <span class="game-eyebrow">Minijuego</span>
+      <h3 class="game-title">🏀 Probá tu tiro</h3>
+    </div>
+    <div class="game-score">
+      <span class="game-score-value">{{ score() }} / {{ attempts() }}</span>
+      <span class="game-score-label">encestes</span>
+    </div>
+  </div>
+
+  <p class="game-hint">{{ message() || 'Arrastrá la pelota hacia atrás y soltá para tirar' }}</p>
+
+  <canvas #canvas class="game-canvas"></canvas>
+</div>

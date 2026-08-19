@@ -21,6 +21,9 @@ export class PartidosSlider {
     return g.length ? [...g, ...g] : [];
   });
 
+  loading = this.homeService.gamesLoading;
+  skeletonSlots = [0, 1, 2, 3];
+
   constructor() {
     effect(() => {
       if (this.authService.isAuthenticated()) {

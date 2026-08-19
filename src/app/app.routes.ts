@@ -59,6 +59,10 @@ export const routes: Routes = [
           {
             path: 'favoritos',
             loadComponent: () => import('./components/favoritos-component/favoritos-component').then(m => m.FavoritosComponent),
+          },
+          {
+            path: 'minijuego',
+            loadComponent: () => import('./components/basketball-game/basketball-game').then(m => m.BasketballGame),
           }
         ]
       }

@@ -29,8 +29,13 @@
   
       
   
-        <button type="button" (click)="submit()" class="btn-login">
-          Crear cuenta
+        <button type="button" (click)="submit()" class="btn-login" [disabled]="loading()">
+          @if (loading()) {
+            <span class="btn-spinner"></span>
+            <span>Creando cuenta...</span>
+          } @else {
+            <span>Crear cuenta</span>
+          }
         </button>
         <div class="login-register">
             <span>¿Ya tenés cuenta?</span>
