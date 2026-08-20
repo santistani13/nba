@@ -1,9 +1,12 @@
 <div class="h-screen overflow-hidden bg-gray-950 text-gray-100 flex flex-col">
 
-  <!-- Header: siempre a todo el ancho, arriba de todo (sidebar y contenido) -->
-  <header class="h-14 bg-gray-900 border-b border-gray-800 shadow flex items-center px-3 sm:px-4 gap-2 shrink-0 z-50">
+  <!-- Header: siempre a todo el ancho, arriba de todo (sidebar y contenido).
+       min-w-0 en los tres tramos + textos truncables/cortos en mobile para
+       que nunca pida más ancho que el viewport (eso era lo que forzaba a
+       hacer zoom out para ver todo). -->
+  <header class="h-14 w-full min-w-0 bg-gray-900 border-b border-gray-800 shadow flex items-center px-3 sm:px-4 gap-2 shrink-0 z-50">
 
-    <div class="flex items-center gap-2 shrink-0">
+    <div class="flex items-center gap-2 shrink-0 min-w-0">
       <button
         class="text-xl leading-none shrink-0"
         (click)="toggleMenu()"
@@ -11,12 +14,12 @@
         ☰
       </button>
 
-      <h1 class="font-bold whitespace-nowrap">NBA App</h1>
+      <h1 class="font-bold whitespace-nowrap truncate">NBA App</h1>
     </div>
 
-    <div class="flex-1"></div>
+    <div class="flex-1 min-w-0"></div>
 
-    <div class="flex items-center gap-2 sm:gap-4">
+    <div class="flex items-center gap-1.5 sm:gap-4 shrink-0">
 
       <!-- Avatar -->
       <div class="w-8 h-8 rounded-full bg-orange-700 flex items-center justify-center text-sm font-bold text-gray-900 shrink-0">
@@ -28,8 +31,9 @@
       </span>
       <button
         (click)="logout()"
-        class="text-sm px-2.5 sm:px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 transition whitespace-nowrap">
-        Cerrar sesion
+        class="text-sm px-2 sm:px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 transition whitespace-nowrap shrink-0">
+        <span class="sm:hidden">Salir</span>
+        <span class="hidden sm:inline">Cerrar sesion</span>
       </button>
 
     </div>
