@@ -8,5 +8,10 @@
 
 html, body {
     height: 100%;
+    /* Red de seguridad: si algún componente se pasa de ancho en mobile
+       (negative margins, elementos con width fijo, etc.) que no fuerce
+       scroll horizontal / zoom-out en toda la app. */
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
