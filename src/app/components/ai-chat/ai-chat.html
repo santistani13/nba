@@ -27,7 +27,7 @@
       <button class="close-btn" (click)="toggleChat()" aria-label="Cerrar chat">✕</button>
     </div>
 
-    <div class="messages">
+    <div class="messages" #messagesEl>
       @if (chat.messages().length === 0) {
         <div class="empty-hint">Preguntame por stats, comparaciones o quién gana hoy 🏀</div>
       }
